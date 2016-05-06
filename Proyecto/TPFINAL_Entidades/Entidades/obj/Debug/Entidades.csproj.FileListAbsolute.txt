@@ -1,0 +1,4 @@
+D:\Facultad\4º AÑO\PAV2\TP_Final\Proyecto\TPFINAL_Entidades\Entidades\bin\Debug\Entidades.dll
+D:\Facultad\4º AÑO\PAV2\TP_Final\Proyecto\TPFINAL_Entidades\Entidades\bin\Debug\Entidades.pdb
+D:\Facultad\4º AÑO\PAV2\TP_Final\Proyecto\TPFINAL_Entidades\Entidades\obj\Debug\Entidades.dll
+D:\Facultad\4º AÑO\PAV2\TP_Final\Proyecto\TPFINAL_Entidades\Entidades\obj\Debug\Entidades.pdb

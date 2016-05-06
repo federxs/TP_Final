@@ -51,21 +51,43 @@
                 <asp:TextBox ID="txt_doc" runat="server"></asp:TextBox>
             </p>
             <p>
-                <asp:Label ID="lbl_fechaNac" runat="server" Text="Fecha Nac"></asp:Label>
-                <asp:TextBox ID="txt_fechaNac" runat="server"></asp:TextBox>
+                <asp:Label ID="lbl_direccion" runat="server" Text="Direccion"></asp:Label>
+                <asp:TextBox ID="txt_direccion" runat="server"></asp:TextBox>
             </p>
             <p>
-                <asp:Label ID="lbl_regular" runat="server" Text="Regular"></asp:Label>
-                <asp:CheckBox ID="chk_regular" runat="server" />
+                <asp:Label ID="lbl_cuit" runat="server" Text="Cuit"></asp:Label>
+                <asp:TextBox ID="txt_cuit" runat="server" />
             </p>
             <p>
-                <asp:Button ID="btn_guardar" runat="server" Text="Guardar en Clase" />
+                <asp:Label ID="Label1" runat="server" Text="Telefono"></asp:Label>
+                <asp:Label ID="Label2" runat="server" Text="Caracteristica"></asp:Label>
+                <asp:TextBox ID="TextBox1" runat="server" CssClass="" />
+                <asp:Label ID="Label3" runat="server" Text="Numero"></asp:Label>
+                <asp:TextBox ID="TextBox2" runat="server" />
             </p>
             <p>
-                <asp:ListBox ID="lb_datos" runat="server"></asp:ListBox>
-                <br />
+                <asp:Label ID="lbl_sexo" runat="server" Text="Sexo"></asp:Label>
+                <asp:Label ID="lbl_sexoMasc" runat="server" Text="Masculino"></asp:Label>
+                <asp:RadioButton ID="rbt_sexoMasc" GroupName="sexo" runat="server"></asp:RadioButton>
+                <asp:Label ID="lbl_sexoFem" runat="server" Text="Femenino"></asp:Label>
+                <asp:RadioButton ID="rbt_sexoFem" GroupName="sexo" Checked="true" runat="server"></asp:RadioButton>
             </p>
-            <asp:Label ID="lbl_mensajes" runat="server"></asp:Label>
+            <p>
+                <asp:Label ID="lbl_localidad" runat="server" Text="Localidad"></asp:Label>
+                <asp:DropDownList ID="cmb_localidad" runat="server" AutoPostBack="true" CssClass="dropdown"></asp:DropDownList>
+            </p>
+            <p>
+                <asp:Label ID="lbl_saldo" runat="server" Text="Saldo"></asp:Label>
+                <asp:TextBox ID="txt_saldo" runat="server"></asp:TextBox>
+            </p>
+            <p>
+                <asp:Button ID="btn_guardar" runat="server" Text="Guardar" />
+            </p>
+            <br />
+            <br />
+            <asp:Panel runat="server">
+                <asp:Label ID="lbl_mensajes" runat="server"></asp:Label>
+            </asp:Panel>
         </div>
     </form>
 </body>
