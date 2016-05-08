@@ -46,7 +46,7 @@
             </p>
             <p>
                 <asp:Label ID="lbl_tipoDoc" runat="server" Text="Tipo Doc"></asp:Label>
-                <asp:DropDownList ID="cmb_tipoDoc" runat="server" AutoPostBack="true" CssClass="dropdown"></asp:DropDownList>
+                <asp:DropDownList ID="ddl_tipoDoc" runat="server" AutoPostBack="true" CssClass="dropdown"></asp:DropDownList>
                 <asp:Label ID="lbl_doc" runat="server" Text="Doc"></asp:Label>
                 <asp:TextBox ID="txt_doc" runat="server"></asp:TextBox>
             </p>
@@ -73,8 +73,10 @@
                 <asp:RadioButton ID="rbt_sexoFem" GroupName="sexo" Checked="true" runat="server"></asp:RadioButton>
             </p>
             <p>
+                <asp:Label ID="lbl_provincia" runat="server" Text="Provincia"></asp:Label>
+                <asp:DropDownList ID="ddl_provincia" runat="server" AutoPostBack="true" CssClass="dropdown"></asp:DropDownList>
                 <asp:Label ID="lbl_localidad" runat="server" Text="Localidad"></asp:Label>
-                <asp:DropDownList ID="cmb_localidad" runat="server" AutoPostBack="true" CssClass="dropdown"></asp:DropDownList>
+                <asp:DropDownList ID="ddl_localidad" runat="server" AutoPostBack="true" CssClass="dropdown"></asp:DropDownList>
             </p>
             <p>
                 <asp:Label ID="lbl_saldo" runat="server" Text="Saldo"></asp:Label>

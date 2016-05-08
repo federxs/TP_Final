@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using DAOs;
+using Entidades;
 
 public partial class Inicio_WF : System.Web.UI.Page
 {
@@ -11,14 +13,27 @@ public partial class Inicio_WF : System.Web.UI.Page
     {
         if (!Page.IsPostBack)
         {
-            cargarCombo();
+            cargarTipoDoc();
         }
     }
 
-    private void cargarCombo()
+    private void cargarTipoDoc()
     {
-        cmb_tipoDoc.Items.Add(new ListItem("DNI", "1"));
-        cmb_tipoDoc.Items.Add(new ListItem("LE", "2"));
-        cmb_tipoDoc.Items.Add(new ListItem("LC", "3"));
+        List<TipoDoc> listaTipoDoc = DAOs.DAO_TipoDoc.ObtenerTodos();
+        ddl_tipoDoc.DataSource = listaTipoDoc;
+        ddl_tipoDoc.DataTextField = "Nombre";
+        ddl_tipoDoc.DataValueField = "IdTipoDoc";
+        ddl_tipoDoc.DataBind();
+        ddl_tipoDoc.SelectedValue = "1";
     }
+
+    private void cargarProvincias()
+    {
+        List<Provincia> listaProvincias = DAOs.DAO_Provincia.ObtenerTodos();
+        ddl_provincia.DataSource = listaProvincias;
+        ddl_provincia.DataTextField = "Nombre";
+        ddl_provincia.DataValueField = "idProvincia";
+        ddl_provincia.DataBind();
+    }
+
 }
