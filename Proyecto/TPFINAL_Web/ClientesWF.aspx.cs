@@ -17,6 +17,7 @@ public partial class Inicio_WF : System.Web.UI.Page
             cargarProvincias();
             cargarGrilla();
         }
+        Page.Title = "Clientes";
     }
 
     private void cargarGrilla()
@@ -62,12 +63,6 @@ public partial class Inicio_WF : System.Web.UI.Page
     protected void ddl_provincia_SelectedIndexChanged(object sender, EventArgs e)
     {
         cargarLocalidades();
-    }
-
-    private void onFocu()
-    {
-        fieldRazon.Attributes.Add("style", "background-color:green;");
-        lbl_razonSocial.Style.Add("background-color", "green");
     }
 
     protected void btn_guardar_Click(object sender, EventArgs e)
