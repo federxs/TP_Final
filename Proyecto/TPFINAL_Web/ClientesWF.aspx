@@ -17,7 +17,7 @@
 
             <div class="container col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <br />
-                <asp:ValidationSummary runat="server" ID="valSummary" HeaderText="Revise los siguientes errores:" ShowSummary="true" DisplayMode="BulletList" ValidationGroup="A" />
+                <asp:ValidationSummary runat="server" ID="valSummary" HeaderText="Revise los siguientes errores:" ShowSummary="true" DisplayMode="BulletList" ValidationGroup="A" ShowMessageBox="True" />
 
                 <div class="form-group">
                     <label for="txt_apellido" runat="server">Apellido:</label>
@@ -101,30 +101,26 @@
             </div>
             <!-- Grilla Clientes -->
             <div id="div_grillaClientes" runat="server" class="container col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <asp:DataGrid ID="dg_grillaClientes" AutoGenerateColumns="False" runat="server" DataKeyField="idCliente"
-                    OnSelectedIndexChanged="dg_grillaClientes_SelectedIndexChanged" CellPadding="4" ForeColor="#333333" GridLines="None" AllowSorting="True">
-                    <AlternatingItemStyle BackColor="White" ForeColor="#284775" />
-                    <Columns>
-                        <asp:ButtonColumn ButtonType="PushButton" CommandName="Select" HeaderText="Seleccionar" Text="Seleccionar"></asp:ButtonColumn>
-                        <asp:BoundColumn DataField="Apellido" HeaderText="Apellido">
-                            <HeaderStyle Width="100px"></HeaderStyle>
-                        </asp:BoundColumn>
-                        <asp:BoundColumn DataField="Nombre" HeaderText="Nombre">
-                            <HeaderStyle Width="100px"></HeaderStyle>
-                        </asp:BoundColumn>
-                        <asp:BoundColumn DataField="Saldo" HeaderText="Saldo">
-                            <HeaderStyle Width="100px"></HeaderStyle>
-                        </asp:BoundColumn>
-                        <asp:HyperLinkColumn HeaderText="Detalles" Text="Detalles..." Target="_blank"></asp:HyperLinkColumn>
-                    </Columns>
-                    <EditItemStyle BackColor="#999999" />
-                    <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                    <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                    <ItemStyle BackColor="#F7F6F3" ForeColor="#333333" />
-                    <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-                    <SelectedItemStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
-                </asp:DataGrid>
             </div>
+
+            <asp:GridView ID="gv_grillaClientes" AutoGenerateColumns="False" OnSelectedIndexChanged="dg_grillaClientes_SelectedIndexChanged" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical">
+                <AlternatingRowStyle BackColor="#DCDCDC" />
+                <Columns>
+                    <asp:CommandField HeaderText="Seleccionar" ShowSelectButton="True" />
+                    <asp:BoundField DataField="Apellido" HeaderText="Apellido" />
+                    <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
+                    <asp:BoundField DataField="Saldo" HeaderText="Saldo" />
+                </Columns>
+                <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
+                <HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />
+                <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+                <RowStyle BackColor="#EEEEEE" ForeColor="Black" />
+                <SelectedRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White" />
+                <SortedAscendingCellStyle BackColor="#F1F1F1" />
+                <SortedAscendingHeaderStyle BackColor="#0000A9" />
+                <SortedDescendingCellStyle BackColor="#CAC9C9" />
+                <SortedDescendingHeaderStyle BackColor="#000065" />
+            </asp:GridView>
             <!-- Fin Grilla Clientes -->
         </form>
     </body>

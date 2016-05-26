@@ -22,9 +22,9 @@ public partial class Inicio_WF : System.Web.UI.Page
 
     private void cargarGrilla()
     {
-        dg_grillaClientes.DataSource = (from cli in DAO_Cliente.ObtenerTodos() orderby cli.Apellido, cli.Nombre select cli);
-        dg_grillaClientes.DataKeyField = "idCliente";
-        dg_grillaClientes.DataBind();
+        gv_grillaClientes.DataSource = (from cli in DAO_Cliente.ObtenerTodos() orderby cli.Apellido, cli.Nombre select cli);
+        gv_grillaClientes.DataKeyNames = new string[] {"idCliente"};
+        gv_grillaClientes.DataBind();
     }
 
     private void cargarTipoDoc()
@@ -109,10 +109,25 @@ public partial class Inicio_WF : System.Web.UI.Page
     protected void dg_grillaClientes_SelectedIndexChanged(object sender, EventArgs e)
     {
         Limpiar();
-        //int idCliente = dg_grillaClientes.sele
-        //Cliente cliente = DAO_Cliente.ObtenerPorID(idCliente);
-        //txt_apellido.Text = cliente.Apellido;
-        //txt_nombre.Text = cliente.Nombre;
+        int idCliente = int.Parse(gv_grillaClientes.SelectedDataKey.Value.ToString());
+        Cliente cliente = DAO_Cliente.ObtenerPorID(idCliente);
+        txt_apellido.Text = cliente.Apellido;
+        txt_nombre.Text = cliente.Nombre;
+        txt_razonSocial.Text = cliente.RazonSocial;
+        ddl_tipoDoc.SelectedValue = cliente.TipoDoc.IdTipoDoc.ToString();
+        txt_doc.Text = cliente.NumeroDoc.ToString();
+        txt_direccion.Text = cliente.Direccion;
+        txt_email.Text = cliente.Email;
+        txt_cuit.Text = cliente.Cuit.ToString();
+        txt_numeroTel.Text = cliente.Telefono.ToString();
+        if (cliente.Sexo == "Masculino")
+            rbt_sexoMasc.Checked = true;
+        else
+            rbt_sexoFem.Checked = false;
+        ddl_provincia.SelectedValue = cliente.Localidad.Provincia.ToString();
+        cargarLocalidades();
+        ddl_localidad.SelectedValue = cliente.Localidad.IdLocalidad.ToString();
+        txt_saldo.Text = cliente.Saldo.ToString();
     }
 
     private void Limpiar()

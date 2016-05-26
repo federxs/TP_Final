@@ -177,9 +177,9 @@ namespace DAOs
                 conexion.Open();
                 SqlCommand comando = new SqlCommand();
                 comando.Connection = conexion;
-                comando.CommandText = @"SELECT C.[idCliente],C.[nombre],C.[apellido],C.[razonSocial], L.[idProvincia]
+                comando.CommandText = @"SELECT  C.[idCliente],C.[nombre],C.[apellido],C.[razonSocial], L.[idProvincia],
                 C.[telefono],C.[email],C.[cuit],C.[sexo],C.[direccion],L.[nombre] as nombreLocalidad, C.[idLocalidad],
-                C.[numeroDoc],TD.[nombre] as nombreTipoDocumento,C.[fechaAlta],C.[saldo],C.[borrado], C.[idTipoDoc], FROM Clientes C JOIN 
+                C.[numeroDoc],TD.[nombre] as nombreTipoDocumento,C.[fechaAlta],C.[saldo],C.[borrado], C.[idTipoDoc] FROM Cliente C JOIN 
                 TipoDoc TD ON C.idTipoDoc = TD.idTipoDoc JOIN Localidad L ON C.idLocalidad = L.idLocalidad
                 WHERE C.idCliente = @idCliente";
                 comando.Parameters.AddWithValue("@idCliente", idCliente);
