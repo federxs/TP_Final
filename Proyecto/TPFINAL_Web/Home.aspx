@@ -12,6 +12,8 @@
         <div class="container">
             <br />
             <br />
+            <br />
+            <asp:Label ID="txtBienvenida" Text="Bienvenido !" runat="server" CssClass="label label-success" />
             <h3><a href="ClientesWF.aspx">Ir al ABMC de Clientes</a>
             </h3>
             <h3><a href="#">Ir al ABMC de Productos</a>

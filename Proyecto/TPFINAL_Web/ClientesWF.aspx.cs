@@ -23,7 +23,7 @@ public partial class Inicio_WF : System.Web.UI.Page
     private void cargarGrilla()
     {
         gv_grillaClientes.DataSource = (from cli in DAO_Cliente.ObtenerTodos() orderby cli.Apellido, cli.Nombre select cli);
-        gv_grillaClientes.DataKeyNames = new string[] {"idCliente"};
+        gv_grillaClientes.DataKeyNames = new string[] { "idCliente" };
         gv_grillaClientes.DataBind();
     }
 
@@ -76,12 +76,7 @@ public partial class Inicio_WF : System.Web.UI.Page
             clienteNuevo.RazonSocial = txt_razonSocial.Text;
             clienteNuevo.FechaAlta = DateTime.Now;
             clienteNuevo.Email = txt_email.Text;
-            TipoDoc tipoDoc = new TipoDoc()
-            {
-                IdTipoDoc = int.Parse(ddl_tipoDoc.SelectedItem.Value),
-                Nombre = ddl_tipoDoc.SelectedItem.Text
-            };
-            clienteNuevo.TipoDoc = tipoDoc;
+            clienteNuevo.TipoDoc = int.Parse(ddl_tipoDoc.SelectedItem.Value);
             int nroDocumento;
             if (int.TryParse(txt_doc.Text, out nroDocumento))
                 clienteNuevo.NumeroDoc = nroDocumento;
@@ -94,27 +89,30 @@ public partial class Inicio_WF : System.Web.UI.Page
                 clienteNuevo.Sexo = "Masculino";
             else
                 clienteNuevo.Sexo = "Femenino";
-            Localidad localidad = new Localidad()
-            {
-                IdLocalidad = int.Parse(ddl_localidad.SelectedValue),
-                Nombre = ddl_localidad.SelectedItem.Text
-            };
-            clienteNuevo.Localidad = localidad;
+            clienteNuevo.Localidad = int.Parse(ddl_localidad.SelectedValue);
             clienteNuevo.Saldo = float.Parse(txt_saldo.Text);
 
-            DAO_Cliente.Insertar(clienteNuevo);
+            if (IdCliente.HasValue)
+                DAO_Cliente.Actualizar(clienteNuevo);
+            else
+                DAO_Cliente.Insertar(clienteNuevo);
         }
     }
 
     protected void dg_grillaClientes_SelectedIndexChanged(object sender, EventArgs e)
     {
         Limpiar();
+        //guardamos el id del cliente seleccionado
         int idCliente = int.Parse(gv_grillaClientes.SelectedDataKey.Value.ToString());
+        IdCliente = idCliente;
         Cliente cliente = DAO_Cliente.ObtenerPorID(idCliente);
+        string script = "alert(\"Hello!\");";
+        ScriptManager.RegisterStartupScript(this, GetType(),
+                              "ServerControlScript", script, true);
         txt_apellido.Text = cliente.Apellido;
         txt_nombre.Text = cliente.Nombre;
         txt_razonSocial.Text = cliente.RazonSocial;
-        ddl_tipoDoc.SelectedValue = cliente.TipoDoc.IdTipoDoc.ToString();
+        ddl_tipoDoc.SelectedValue = cliente.TipoDoc.ToString();
         txt_doc.Text = cliente.NumeroDoc.ToString();
         txt_direccion.Text = cliente.Direccion;
         txt_email.Text = cliente.Email;
@@ -124,10 +122,24 @@ public partial class Inicio_WF : System.Web.UI.Page
             rbt_sexoMasc.Checked = true;
         else
             rbt_sexoFem.Checked = false;
-        ddl_provincia.SelectedValue = cliente.Localidad.Provincia.ToString();
+        ddl_provincia.SelectedValue = DAO_Provincia.obtenerPorLocalidad(int.Parse(cliente.Localidad.ToString())).ToString();
         cargarLocalidades();
-        ddl_localidad.SelectedValue = cliente.Localidad.IdLocalidad.ToString();
+        ddl_localidad.SelectedValue = cliente.Localidad.ToString();
         txt_saldo.Text = cliente.Saldo.ToString();
+    }
+
+    protected int? IdCliente
+    {
+        get
+        {
+            if (ViewState["ID"] != null)
+                return (int)ViewState["ID"];
+            else
+            {
+                return null;
+            }
+        }
+        set { ViewState["ID"] = value; }
     }
 
     private void Limpiar()

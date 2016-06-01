@@ -18,16 +18,16 @@ namespace Entidades
         public string Email { get; set; }
         public string Sexo { get; set; }
         public string Direccion { get; set; }
-        public Localidad Localidad { get; set; }
+        public int Localidad { get; set; }
         public int NumeroDoc { get; set; }
-        public TipoDoc TipoDoc { get; set; }
+        public int TipoDoc { get; set; }
         public DateTime FechaAlta { get; set; }
         public float Saldo { get; set; }
         public bool Borrado { get; set; }
 
         public Cliente() { }
         public Cliente(int idCliente, string apellido, string nombre, string razonSocial, int cuit, string sexo, string direccion,
-            Localidad localidad, int numeroDoc, TipoDoc tipoDoc, DateTime fechaAlta, float saldo, bool borrado, long telefono, string email)
+            int localidad, int numeroDoc, int tipoDoc, DateTime fechaAlta, float saldo, bool borrado, long telefono, string email)
         {
             IdCliente = idCliente;
             Apellido = apellido;

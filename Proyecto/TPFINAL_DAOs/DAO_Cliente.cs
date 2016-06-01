@@ -42,9 +42,9 @@ namespace DAOs
             comando.Parameters.AddWithValue("@email", cliente.Email);
             comando.Parameters.AddWithValue("@cuit", cliente.Cuit);
             comando.Parameters.AddWithValue("@direccion", cliente.Direccion);
-            comando.Parameters.AddWithValue("@idLocalidad", cliente.Localidad.IdLocalidad);
+            comando.Parameters.AddWithValue("@idLocalidad", cliente.Localidad);
             comando.Parameters.AddWithValue("@numeroDoc", cliente.NumeroDoc);
-            comando.Parameters.AddWithValue("@idTipoDoc", cliente.TipoDoc.IdTipoDoc);
+            comando.Parameters.AddWithValue("@idTipoDoc", cliente.TipoDoc);
             comando.Parameters.AddWithValue("@fechaAlta", cliente.FechaAlta);
             comando.Parameters.AddWithValue("@saldo", cliente.Saldo);
             if (cliente.Borrado)
@@ -82,19 +82,19 @@ namespace DAOs
                 else
                     comando.Parameters.AddWithValue("@sexo", 0);
                 comando.Parameters.AddWithValue("@direccion", cliente.Direccion);
-                comando.Parameters.AddWithValue("@idLocalidad", cliente.Localidad.IdLocalidad);
+                comando.Parameters.AddWithValue("@idLocalidad", cliente.Localidad);
                 comando.Parameters.AddWithValue("@numeroDoc", cliente.NumeroDoc);
-                comando.Parameters.AddWithValue("@idTipoDoc", cliente.TipoDoc.IdTipoDoc);
+                comando.Parameters.AddWithValue("@idTipoDoc", cliente.TipoDoc);
                 comando.Parameters.AddWithValue("@fechaAlta", cliente.FechaAlta);
                 comando.Parameters.AddWithValue("@saldo", cliente.Saldo);
                 if (cliente.Borrado)
                     comando.Parameters.AddWithValue("@borrado", 1);
                 else
                     comando.Parameters.AddWithValue("@borrado", 0);
-                //if (cliente.Sexo.ToString() == "Masculino")
-                //    comando.Parameters.AddWithValue("@sexo", true);
-                //else
-                //    comando.Parameters.AddWithValue("@sexo", false);
+                if (cliente.Sexo.ToString() == "Masculino")
+                    comando.Parameters.AddWithValue("@sexo", true);
+                else
+                    comando.Parameters.AddWithValue("@sexo", false);
                 comando.ExecuteNonQuery();
 
                 conexion.Close();
@@ -116,20 +116,12 @@ namespace DAOs
                 conexion.Open();
                 SqlCommand comando = new SqlCommand();
                 comando.Connection = conexion;
-                comando.CommandText = @"SELECT top 1000 C.[idCliente],C.[nombre],C.[apellido],C.[razonSocial], L.[idProvincia],
-                C.[telefono],C.[email],C.[cuit],C.[sexo],C.[direccion],L.[nombre] as nombreLocalidad, C.[idLocalidad],
-                C.[numeroDoc],TD.[nombre] as nombreTipoDocumento,C.[fechaAlta],C.[saldo],C.[borrado], C.[idTipoDoc] FROM [ProyectoWeb].[dbo].Cliente C JOIN 
-                [ProyectoWeb].[dbo].TipoDoc TD ON C.idTipoDoc = TD.idTipoDoc JOIN [ProyectoWeb].[dbo].Localidad L ON C.idLocalidad = L.idLocalidad";
+                comando.CommandText = @"SELECT top 1000 C.[idCliente],C.[nombre],C.[apellido],C.[razonSocial], C.[idLocalidad],
+                C.[telefono],C.[email],C.[cuit],C.[sexo],C.[direccion], C.[saldo], C.[borrado], C.[idTipoDoc],
+                C.[numeroDoc],C.[idTipoDoc], C.[fechaAlta] FROM [ProyectoWeb].[dbo].Cliente C";
                 SqlDataReader dataReader = comando.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    Localidad localidad = new Localidad();
-                    localidad.IdLocalidad = int.Parse(dataReader["idLocalidad"].ToString());
-                    localidad.Nombre = dataReader["nombreLocalidad"].ToString();
-                    localidad.Provincia = int.Parse(dataReader["idProvincia"].ToString());
-                    TipoDoc tipoDoc = new TipoDoc();
-                    tipoDoc.IdTipoDoc = int.Parse(dataReader["idTipoDoc"].ToString());
-                    tipoDoc.Nombre = dataReader["nombreTipoDocumento"].ToString();
                     Cliente cliente = new Cliente()
                     {
                         IdCliente = int.Parse(dataReader["idCliente"].ToString()),
@@ -137,9 +129,9 @@ namespace DAOs
                         Email = dataReader["email"].ToString(),
                         Cuit = int.Parse(dataReader["cuit"].ToString()),
                         Direccion = dataReader["direccion"].ToString(),
-                        Localidad = localidad,
+                        Localidad = int.Parse(dataReader["idLocalidad"].ToString()),
                         NumeroDoc = int.Parse(dataReader["numeroDoc"].ToString()),
-                        TipoDoc = tipoDoc,
+                        TipoDoc = int.Parse(dataReader["idTipoDoc"].ToString()),
                         FechaAlta = (DateTime)dataReader["fechaAlta"],
                         Saldo = float.Parse(dataReader["saldo"].ToString()),
                         Borrado = Convert.ToBoolean(dataReader["borrado"].ToString())
@@ -177,36 +169,27 @@ namespace DAOs
                 conexion.Open();
                 SqlCommand comando = new SqlCommand();
                 comando.Connection = conexion;
-                comando.CommandText = @"SELECT  C.[idCliente],C.[nombre],C.[apellido],C.[razonSocial], L.[idProvincia],
-                C.[telefono],C.[email],C.[cuit],C.[sexo],C.[direccion],L.[nombre] as nombreLocalidad, C.[idLocalidad],
-                C.[numeroDoc],TD.[nombre] as nombreTipoDocumento,C.[fechaAlta],C.[saldo],C.[borrado], C.[idTipoDoc] FROM Cliente C JOIN 
-                TipoDoc TD ON C.idTipoDoc = TD.idTipoDoc JOIN Localidad L ON C.idLocalidad = L.idLocalidad
-                WHERE C.idCliente = @idCliente";
+                comando.CommandText = @"SELECT  C.[idCliente],C.[nombre],C.[apellido],C.[razonSocial], C.[idLocalidad],
+                C.[telefono],C.[email],C.[cuit],C.[sexo],C.[direccion], C.[saldo], C.[borrado], C.[idTipoDoc],
+                C.[numeroDoc],C.[idTipoDoc], C.[fechaAlta] FROM [ProyectoWeb].[dbo].Cliente C WHERE C.idCliente = @idCliente";
                 comando.Parameters.AddWithValue("@idCliente", idCliente);
                 SqlDataReader dataReader = comando.ExecuteReader();
                 if (dataReader.Read())
                 {
-                    Localidad localidad = new Localidad();
-                    localidad.IdLocalidad = int.Parse(dataReader["idLocalidad"].ToString());
-                    localidad.Nombre = dataReader["nombreLocalidad"].ToString();
-                    localidad.Provincia = int.Parse(dataReader["idProvincia"].ToString());
-                    TipoDoc tipoDoc = new TipoDoc();
-                    tipoDoc.IdTipoDoc = int.Parse(dataReader["idTipoDoc"].ToString());
-                    tipoDoc.Nombre = dataReader["nombreTipoDocumento"].ToString();
                     cliente = new Cliente()
-                    {
-                        IdCliente = int.Parse(dataReader["idCliente"].ToString()),
-                        Telefono = long.Parse(dataReader["telefono"].ToString()),
-                        Email = dataReader["email"].ToString(),
-                        Cuit = int.Parse(dataReader["cuit"].ToString()),
-                        Direccion = dataReader["direccion"].ToString(),
-                        Localidad = localidad,
-                        NumeroDoc = int.Parse(dataReader["numeroDoc"].ToString()),
-                        TipoDoc = tipoDoc,
-                        FechaAlta = (DateTime)dataReader["fechaAlta"],
-                        Saldo = float.Parse(dataReader["saldo"].ToString()),
-                        Borrado = Convert.ToBoolean(dataReader["borrado"].ToString())
-                    };
+                     {
+                         IdCliente = int.Parse(dataReader["idCliente"].ToString()),
+                         Telefono = long.Parse(dataReader["telefono"].ToString()),
+                         Email = dataReader["email"].ToString(),
+                         Cuit = int.Parse(dataReader["cuit"].ToString()),
+                         Direccion = dataReader["direccion"].ToString(),
+                         Localidad = int.Parse(dataReader["idLocalidad"].ToString()),
+                         NumeroDoc = int.Parse(dataReader["numeroDoc"].ToString()),
+                         TipoDoc = int.Parse(dataReader["idTipoDoc"].ToString()),
+                         FechaAlta = (DateTime)dataReader["fechaAlta"],
+                         Saldo = float.Parse(dataReader["saldo"].ToString()),
+                         Borrado = Convert.ToBoolean(dataReader["borrado"].ToString())
+                     };
                     if (dataReader["apellido"] != DBNull.Value)
                         cliente.Apellido = dataReader["apellido"].ToString();
                     if (dataReader["nombre"] != DBNull.Value)

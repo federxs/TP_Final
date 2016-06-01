@@ -44,6 +44,7 @@
     <Compile Include="DAO_Pais.cs" />
     <Compile Include="DAO_Provincia.cs" />
     <Compile Include="DAO_TipoDoc.cs" />
+    <Compile Include="DAO_Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringConexion.cs" />
   </ItemGroup>

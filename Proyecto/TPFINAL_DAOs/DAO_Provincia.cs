@@ -73,5 +73,26 @@ namespace DAOs
                 throw e;
             }
         }
+
+        public static int obtenerPorLocalidad(int idLocalidad)
+        {
+            try
+            {
+                SqlConnection conexion = new SqlConnection();
+                conexion.ConnectionString = StringConexion.StringBD;
+                conexion.Open();
+                SqlCommand comando = new SqlCommand();
+                comando.Connection = conexion;
+                comando.CommandText = @"SELECT L.[idProvincia] FROM Localidad L WHERE L.[idLocalidad] = @idLocalidad";
+                comando.Parameters.AddWithValue("@idLocalidad", idLocalidad);
+                int idProvincia = (int) comando.ExecuteScalar();
+                conexion.Close();
+                return idProvincia;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

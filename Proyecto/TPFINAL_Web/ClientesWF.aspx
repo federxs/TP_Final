@@ -3,12 +3,7 @@
 <asp:Content ID="Contenido1" ContentPlaceHolderID="ContentPlaceHolderMaster" runat="server">
     <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="js/bootstrap.js"></script>
-
-        <!--INICIO PAGINA-->
+        <!--INICIO FORMULARIO CLIENTES-->
         <form class="form form-inline form-multiline" id="frm_inicio" role="form" runat="server" method="post">
             <h3>Clientes</h3>
             <p style="color: gray">
@@ -17,8 +12,9 @@
 
             <div class="container col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <br />
-                <asp:ValidationSummary runat="server" ID="valSummary" HeaderText="Revise los siguientes errores:" ShowSummary="true" DisplayMode="BulletList" ValidationGroup="A" ShowMessageBox="True" />
-
+                <div class="container col-lg-9 col-md-9 col-sm-9 col-xs-12" style="background-color:lightsalmon">
+                    <asp:ValidationSummary runat="server" ID="valSummary" HeaderText="Revise los siguientes errores:" ShowSummary="true" DisplayMode="BulletList" ValidationGroup="A" ShowMessageBox="True" />
+                </div>
                 <div class="form-group">
                     <label for="txt_apellido" runat="server">Apellido:</label>
                     <asp:TextBox ID="txt_apellido" runat="server" CssClass="form-control"></asp:TextBox>
@@ -62,7 +58,7 @@
                     <asp:TextBox ID="txt_numeroTel" runat="server" CssClass="form-control" />
                     <br />
                     <label style="color: gray; font-weight: 100">Código de área + Nº. Ej.: 11 43234556</label>
-                    <asp:RequiredFieldValidator runat="server" ID="reqFieldNumero" ControlToValidate="txt_numeroTel" Text="*" ErrorMessage="El número de telefono no puede estar vacío" InitialValue="" Display="Static" ValidationGroup="A" />
+                    <asp:RequiredFieldValidator runat="server" ID="reqFieldNumero" ControlToValidate="txt_numeroTel" Text="*" ErrorMessage="El número de telefono no puede estar vacío" InitialValue="" ValidationGroup="A" />
                 </div>
                 <div class="form-group">
                     <label>Sexo: *</label>
@@ -83,16 +79,18 @@
                 <div class="form-group">
                     <label for="txt_saldo">Saldo: *</label>
                     <asp:TextBox CssClass="form-control" ID="txt_saldo" runat="server"></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="rfSaldo" ErrorMessage="Debe completar el campo saldo" ControlToValidate="txt_saldo" runat="server" ValidationGroup="A" />
-                    <asp:CompareValidator ID="cvSaldo" ErrorMessage="El saldo ingresado no es válido" ControlToValidate="txt_saldo" runat="server" ValidationGroup="A" ValueToCompare="0" Type="Currency" Operator="GreaterThanEqual" />
+                    <asp:RequiredFieldValidator ID="rfSaldo" ErrorMessage="Debe completar el campo saldo" Text="*" ControlToValidate="txt_saldo" runat="server" ValidationGroup="A" />
+                    <asp:CompareValidator ID="cvSaldo" ErrorMessage="El saldo ingresado no es válido" Text="*" ControlToValidate="txt_saldo" runat="server" ValidationGroup="A" ValueToCompare="0" Type="Currency" Operator="GreaterThanEqual" />
                 </div>
                 <!--Fin Campos-->
+
                 <!--Botones-->
                 <br />
                 <div class="form-group">
-                    <asp:Button ID="btn_guardar" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btn_guardar_Click" />
+                    <asp:Button ID="btn_guardar" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btn_guardar_Click" ValidationGroup="A" />
                 </div>
                 <!--Fin Botones-->
+
                 <br />
                 <br />
                 <asp:Panel ID="pnl_mensajes" runat="server">

@@ -26,7 +26,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <!--Header-->
     <div>
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -49,21 +49,28 @@
                         <li>
                             <a href="#">Sobre Nosotros</a>
                         </li>
-                        <li>
-                            <a href="#">Contacto</a>
-                        </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">jeje <b class="caret"></b>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Informes <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="dropdown-header">Dulce</li>
+                                <li class="dropdown-header">Informes</li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="#">Caramelos</a></li>
-                                <li><a href="#">Chupetines</a></li>
-                                <li class="dropdown-header">Salado</li>
+                                <li><a href="ClientesWF.aspx">Informe1</a></li>
+                                <li><a href="#">Informe2</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">ABM's <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header">ABM's</li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="ClientesWF.aspx">Clientes</a></li>
+                                <li><a href="#">Productos</a></li>
+                                <%--<li class="dropdown-header">Salado</li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="#">Papitas</a></li>
-                                <li><a href="#">Sanguchitos</a></li>
+                                <li><a href="#">Sanguchitos</a></li>--%>
                             </ul>
                         </li>
                         <li>
