@@ -42,6 +42,7 @@
     <Compile Include="DAO_Cliente.cs" />
     <Compile Include="DAO_Localidad.cs" />
     <Compile Include="DAO_Pais.cs" />
+    <Compile Include="DAO_Pedido.cs" />
     <Compile Include="DAO_Provincia.cs" />
     <Compile Include="DAO_TipoDoc.cs" />
     <Compile Include="DAO_Usuario.cs" />

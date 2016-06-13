@@ -13,7 +13,7 @@ namespace Entidades
         public string Apellido { get; set; }
         public string Nombre { get; set; }
         public string RazonSocial { get; set; }
-        public int Cuit { get; set; }
+        public string Cuit { get; set; }
         public long Telefono { get; set; }
         public string Email { get; set; }
         public string Sexo { get; set; }
@@ -26,7 +26,7 @@ namespace Entidades
         public bool Borrado { get; set; }
 
         public Cliente() { }
-        public Cliente(int idCliente, string apellido, string nombre, string razonSocial, int cuit, string sexo, string direccion,
+        public Cliente(int idCliente, string apellido, string nombre, string razonSocial, string cuit, string sexo, string direccion,
             int localidad, int numeroDoc, int tipoDoc, DateTime fechaAlta, float saldo, bool borrado, long telefono, string email)
         {
             IdCliente = idCliente;
