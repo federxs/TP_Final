@@ -56,7 +56,7 @@
                                 <li class="dropdown-header">Informes</li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="InformePedidosWF.aspx">Pedidos</a></li>
-                                <li><a href="#">Informe2</a></li>
+                                <li><a href="InformeProductosVendidosWF.aspx">Productos Vendidos</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -65,8 +65,8 @@
                             <ul class="dropdown-menu">
                                 <li class="dropdown-header">ABM's</li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="ClientesWF.aspx">Clientes</a></li>
-                                <li><a href="#">Productos</a></li>
+                                <li><a href="ABMClientesWF.aspx">Clientes</a></li>
+                                <li><a href="ABMProducto.aspx">Productos</a></li>
                                 <%--<li class="dropdown-header">Salado</li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="#">Papitas</a></li>

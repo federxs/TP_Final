@@ -1,0 +1,4 @@
+Gay viste que el abm hay que hacerlo todo en una misma pantalla. 
+Bueno yo hice esto:
+Cuatro botones "Nuevo", " Modificar", "Eliminar" y "guardar" y una grilla con los productos
+Si uno quiere hacer un alta apreta nuevo y se le habilitan los txt. Si uno apreta uno de los productos desde la grilla, los datos se cargan pero están deshabilitados para modificarlos. Y si uno apreta modificar ahí se habilita el botón eliminar y se habilitan los txt para que puedas modificar el producto seleccionado

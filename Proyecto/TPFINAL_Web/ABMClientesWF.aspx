@@ -1,4 +1,4 @@
-﻿<%@ Page MasterPageFile="~/DefaultMP.master" Language="C#" AutoEventWireup="true" CodeFile="ClientesWF.aspx.cs" Inherits="Inicio_WF" %>
+﻿<%@ Page MasterPageFile="~/DefaultMP.master" Language="C#" AutoEventWireup="true" CodeFile="ABMClientesWF.aspx.cs" Inherits="Inicio_WF" %>
 
 <asp:Content ID="Contenido1" ContentPlaceHolderID="ContentPlaceHolderMaster" runat="server">
     <html xmlns="http://www.w3.org/1999/xhtml">
