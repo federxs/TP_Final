@@ -11,7 +11,6 @@
         </div>
         <form class="form form-inline form-multiline" id="frm_inicio" role="form" runat="server" method="post">
             <div class="container col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                <h3>Informe de Pedidos</h3>
                 <div class="form-group">
                     <div class="form-group">
                         <label for="txtFechaDesde">Fecha Desde:</label>
@@ -34,26 +33,15 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <asp:GridView runat="server" ID="gvPedidos" AutoGenerateColumns="False" EmptyDataText="No se encontraron resultados" CellPadding="4" ForeColor="#333333" GridLines="None">
-                        <AlternatingRowStyle BackColor="White" />
+                    <asp:GridView runat="server" ID="gvPedidos" AutoGenerateColumns="False" EmptyDataText="No se encontraron resultados">
                         <Columns>
                             <asp:BoundField DataField="Apellido" HeaderText="Apellido" />
                             <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
                             <asp:BoundField DataField="IdPedido" HeaderText="N° Pedido" />
                             <asp:BoundField DataField="Estado" HeaderText="Estado" />
-                            <asp:BoundField DataField="FechaEntrega" HeaderText="Fecha Entrega" DataFormatString="{0:dd/mm/yyyy}" />
+                            <asp:BoundField DataField="FechaEntrega" HeaderText="Fecha Entrega" />
                             <asp:BoundField DataField="Total" HeaderText="Total" />
                         </Columns>
-                        <EditRowStyle BackColor="#2461BF" />
-                        <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                        <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                        <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
-                        <RowStyle BackColor="#EFF3FB" />
-                        <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-                        <SortedAscendingCellStyle BackColor="#F5F7FB" />
-                        <SortedAscendingHeaderStyle BackColor="#6D95E1" />
-                        <SortedDescendingCellStyle BackColor="#E9EBEF" />
-                        <SortedDescendingHeaderStyle BackColor="#4870BE" />
                     </asp:GridView>
                 </div>
 

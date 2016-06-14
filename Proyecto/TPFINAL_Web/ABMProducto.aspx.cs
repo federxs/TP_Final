@@ -12,6 +12,7 @@ public partial class ABMProducto : System.Web.UI.Page
     {
         if (!Page.IsPostBack)
         {
+            Page.DataBind();
             cargarGrilla();
             cmb_tipoProducto.DataTextField = "descripcion";
             cmb_tipoProducto.DataValueField = "idTipoProducto";

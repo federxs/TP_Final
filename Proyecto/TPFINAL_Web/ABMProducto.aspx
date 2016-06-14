@@ -36,9 +36,9 @@
                     <br />
                     <asp:Label ID="lbl_fechaAlta" runat="server"  Text="Fecha Alta:"></asp:Label>
                     <asp:TextBox ID="txt_fechaAlta" CssClass="text-primary" runat="server" Width="101px"></asp:TextBox>
-                    <asp:RegularExpressionValidator ID="rev_fecha"  runat="server" ControlToValidate="txt_fechaAlta"
-                         Display="Dynamic" ErrorMessage="La fecha no tiene un formato valido." ValidationGroup="A" ValidationExpression="(0[1-9]|1[012])[-/.](0[1-9]|[12][0-9]|3[01])[-/.](19|20)\d\d">*</asp:RegularExpressionValidator>
+                    <asp:CompareValidator Text="*" ErrorMessage="La fecha no tiene un formato valido." ControlToValidate="txt_fechaAlta" runat="server" Type="Date" ValidationGroup="A" Operator="DataTypeCheck" Display="Dynamic" />
                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txt_fechaAlta" ErrorMessage="Ingrese una Fecha." ValidationGroup="A">*</asp:RequiredFieldValidator>
+                    <asp:CompareValidator ID="cmp_fechaAlta" runat="server" ControlToValidate="txt_fechaAlta" Display="Dynamic" ErrorMessage="Fecha ingresada incorrecta." ValueToCompare = '<%# DateTime.Today.ToShortDateString() %>' Operator="LessThanEqual" Type="Date" ValidationGroup="A"></asp:CompareValidator>
                     <br />
                     <br />
                     <asp:Label ID="lbl_Url" runat="server" Text="Url de la imagen:"></asp:Label>
