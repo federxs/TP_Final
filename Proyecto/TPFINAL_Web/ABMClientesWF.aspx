@@ -13,6 +13,7 @@
             <h3>Clientes</h3>
             <p style="color: gray">
                 Los marcados con (*) son obligatorios
+           
             </p>
 
             <div class="container col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -22,16 +23,16 @@
                 </div>
                 <div class="form-group">
                     <label for="txt_apellido" runat="server">Apellido:</label>
-                    <asp:TextBox ID="txt_apellido" runat="server" CssClass="form-control" PlaceHolder="Apellido"></asp:TextBox>
+                    <asp:TextBox ID="txt_apellido" runat="server" CssClass="form-control" PlaceHolder="Apellido" MaxLength="35"></asp:TextBox>
                 </div>
                 <div class="form-group">
                     <!--<asp:Label ID="lbl_nombre" runat="server" Text="Nombre: "></asp:Label>-->
                     <label for="txt_nombre">Nombre:</label>
-                    <asp:TextBox ID="txt_nombre" runat="server" CssClass="form-control" PlaceHolder="Nombre"></asp:TextBox>
+                    <asp:TextBox ID="txt_nombre" runat="server" CssClass="form-control" PlaceHolder="Nombre" MaxLength="35"></asp:TextBox>
                 </div>
                 <div class="form-group">
                     <label for="txt_razonSocial">Razon Social:</label>
-                    <asp:TextBox ID="txt_razonSocial" runat="server" CssClass="form-control" PlaceHolder="Razon Social"></asp:TextBox>
+                    <asp:TextBox ID="txt_razonSocial" runat="server" CssClass="form-control" PlaceHolder="Razon Social" MaxLength="35"></asp:TextBox>
                 </div>
                 <div class="form-group">
                     <label for="ddl_tipoDoc">Tipo Doc: *</label>
@@ -46,17 +47,17 @@
                 </div>
                 <div class="form-group">
                     <label for="txt_direccion">Domicilio: *</label>
-                    <asp:TextBox ID="txt_direccion" runat="server" CssClass="form-control" PlaceHolder="Domicilio" />
+                    <asp:TextBox ID="txt_direccion" runat="server" CssClass="form-control" PlaceHolder="Domicilio" MaxLength="35"/>
                     <asp:RequiredFieldValidator runat="server" ID="reqFieldDirec" ControlToValidate="txt_direccion" Text="*" ErrorMessage="El domicilio no puede estar vacío" InitialValue="" Display="Dynamic" ValidationGroup="A" />
                 </div>
                 <div class="form-group">
                     <label for="txt_email">Email: *</label>
-                    <asp:TextBox ID="txt_email" runat="server" CssClass="form-control" PlaceHolder="Email"></asp:TextBox><asp:RequiredFieldValidator runat="server" ID="reqFieldEmail" ControlToValidate="txt_email" Text="*" ErrorMessage="El email no puede estar vacío" InitialValue="" Display="Dynamic" ValidationGroup="A" />
+                    <asp:TextBox ID="txt_email" runat="server" CssClass="form-control" PlaceHolder="Email" MaxLength="255"></asp:TextBox><asp:RequiredFieldValidator runat="server" ID="reqFieldEmail" ControlToValidate="txt_email" Text="*" ErrorMessage="El email no puede estar vacío" InitialValue="" Display="Dynamic" ValidationGroup="A" />
                     <asp:RegularExpressionValidator ID="regExEmail" ErrorMessage="El email ingresado no es válido" ControlToValidate="txt_email" runat="server" Text="*" ValidationGroup="A" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
                 </div>
                 <div class="form-group">
                     <label for="txt_cuit">CUIT: *</label>
-                    <asp:TextBox ID="txt_cuit" runat="server" CssClass="form-control" PlaceHolder="CUIT" />
+                    <asp:TextBox ID="txt_cuit" runat="server" CssClass="form-control" PlaceHolder="CUIT" MaxLength="15" />
                     <asp:RequiredFieldValidator runat="server" ID="reqFieldCuit" ControlToValidate="txt_cuit" Text="*" ErrorMessage="El cuit no puede estar vacío" InitialValue="" ValidationGroup="A" />
                 </div>
                 <div class="form-group">

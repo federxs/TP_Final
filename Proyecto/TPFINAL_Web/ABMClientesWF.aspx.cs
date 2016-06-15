@@ -111,7 +111,13 @@ public partial class Inicio_WF : System.Web.UI.Page
                 {
                     DAO_Cliente.Insertar(clienteNuevo);
                 }
-                catch (SqlException) { resultadoOperacion = "Ha ocurrido un error durante la inserción"; }
+                catch (SqlException ex)
+                {
+                    if (ex.Number == 2627)
+                        resultadoOperacion = "El numero de dni no puede estar duplicado";
+                    else
+                        resultadoOperacion = "Ha surgido un error durante la actualización";
+                }
             }
             //bloqueamos y limpiamos botones e inputs, y cargamos grilla
             cargarGrilla();
