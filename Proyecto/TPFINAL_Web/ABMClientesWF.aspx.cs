@@ -103,7 +103,13 @@ public partial class Inicio_WF : System.Web.UI.Page
                 {
                     DAO_Cliente.Actualizar(clienteNuevo);
                 }
-                catch (SqlException) { resultadoOperacion = "Ha surgido un error durante la actualización"; }
+                catch (SqlException ex)
+                {
+                    if (ex.Number == 2627)
+                        resultadoOperacion = "El numero de dni no puede estar duplicado";
+                    else
+                        resultadoOperacion = "Ha surgido un error durante la actualización";
+                }
             }
             else
             {

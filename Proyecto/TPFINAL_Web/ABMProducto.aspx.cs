@@ -164,4 +164,10 @@ public partial class ABMProducto : System.Web.UI.Page
         update = false;
 
     }
+    protected void btnBuscar_Click(object sender, EventArgs e)
+    {
+        dgv_producto.DataSource = (from cli in DAO_Cliente.ObtenerTodos(txtBuscar.Text) orderby cli.Apellido, cli.Nombre select cli);
+        dgv_producto.DataKeyNames = new string[] { "idCliente" };
+        dgv_producto.DataBind();
+    }
 }

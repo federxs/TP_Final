@@ -54,6 +54,7 @@ namespace DAOs
                     comando.Parameters.AddWithValue("@sexo", 1);
                 else
                     comando.Parameters.AddWithValue("@sexo", 0);
+                comando.ExecuteNonQuery();
                 conexion.Close();
             }
             catch (SqlException exSql) { throw exSql; }
@@ -173,7 +174,7 @@ namespace DAOs
                 C.[numeroDoc],C.[idTipoDoc], C.[fechaAlta] FROM [ProyectoWeb].[dbo].Cliente C";
                 if (!string.IsNullOrEmpty(apellidoBusqueda))
                 {
-                    comando.CommandText += @" WHERE C.[apellido] LIKE '%@apellido%'";
+                    comando.CommandText += " WHERE C.[apellido] LIKE '%@apellido%'";
                     comando.Parameters.AddWithValue("@apellido", apellidoBusqueda.ToLower());
                 }
                 SqlDataReader dataReader = comando.ExecuteReader();

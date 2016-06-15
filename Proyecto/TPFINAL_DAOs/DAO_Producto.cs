@@ -26,7 +26,7 @@ namespace DAOs
                 comando.Parameters.AddWithValue("@idTipoProducto", p.idTipoProducto);
                 comando.Parameters.AddWithValue("@fechaAlta", p.fechaAlta);
                 comando.Parameters.AddWithValue("@imagen", p.imagen);
-                comando.Parameters.AddWithValue("@idProducto", p.idProducto );
+                comando.Parameters.AddWithValue("@idProducto", p.idProducto);
                 comando.ExecuteNonQuery();
                 conexion.Close();
             }
@@ -46,7 +46,7 @@ namespace DAOs
                 SqlCommand comando = new SqlCommand();
                 comando.Connection = conexion;
                 comando.CommandText = @"Update Producto set [borrado] = 1 where idProducto = @idProducto";
-                comando.Parameters.AddWithValue("@idProducto",id);
+                comando.Parameters.AddWithValue("@idProducto", id);
                 comando.ExecuteNonQuery();
                 conexion.Close();
             }
@@ -102,7 +102,7 @@ namespace DAOs
             while (dr.Read())
             {
 
-                String nombre = dr["nombre"].ToString();             
+                String nombre = dr["nombre"].ToString();
                 DateTime fechaAlta = (DateTime)dr["fechaAlta"];
                 float precio = float.Parse(dr["precio"].ToString());
                 int idTipoProducto = int.Parse(dr["idTipoProducto"].ToString());
@@ -173,6 +173,45 @@ namespace DAOs
             dr.Close();
             cn.Close();
             return p;
+        }
+
+        public static List<Producto> obtenerTodos(string nombreBusqueda)
+        {
+            List<Producto> listProductos = new List<Producto>();
+            //1. Abrir la conexion
+            SqlConnection cn = new SqlConnection();
+            cn.ConnectionString = DAOs.StringConexion.StringBD;
+            cn.Open();
+            //2. Crear el objeto command para ejecutar el insert
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = cn;
+            cmd.CommandText = @"Select top 1000
+                               [idProducto]
+                              ,[nombre]
+                              ,[precio]
+                              ,[idTipoProducto]
+                              ,[imagen], [fechaAlta] from Producto where borrado = 0";
+            if (!string.IsNullOrEmpty(nombreBusqueda))
+            {
+                cmd.CommandText += @" and nombre LIKE '%@nombre%'";
+                cmd.Parameters.AddWithValue("@nombre", nombreBusqueda);
+            }
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+
+                String nombre = dr["nombre"].ToString();
+                DateTime fechaAlta = (DateTime)dr["fechaAlta"];
+                float precio = float.Parse(dr["precio"].ToString());
+                int idTipoProducto = int.Parse(dr["idTipoProducto"].ToString());
+                String imagen = dr["imagen"].ToString();
+                Producto p = new Producto(nombre, precio, fechaAlta, idTipoProducto, imagen);
+                p.idProducto = int.Parse(dr["idProducto"].ToString());
+                listProductos.Add(p);
+            }
+            dr.Close();
+            cn.Close();
+            return listProductos;
         }
     }
 }

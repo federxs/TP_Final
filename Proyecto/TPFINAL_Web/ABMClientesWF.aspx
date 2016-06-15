@@ -122,11 +122,11 @@
                     <h5>Buscar por apellido:</h5>
                     <label for="txtBuscar" runat="server">Apellido</label>
                     <asp:TextBox CssClass="form-control" runat="server" ID="txtBuscar" PlaceHolder="Apellido" />
-                    <asp:Button Text="Buscar" runat="server" ID="btnBuscar" OnClick="btnBuscar_Click" />
+                    <asp:Button CssClass="btn btn-success" Text="Buscar" runat="server" ID="btnBuscar" OnClick="btnBuscar_Click" />
                 </div>
                 <!--Fin Buscador-->
                 <div class="form-group">
-                    <asp:GridView ID="gv_grillaClientes" AutoGenerateColumns="False" OnSelectedIndexChanged="dg_grillaClientes_SelectedIndexChanged" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical">
+                    <asp:GridView ID="gv_grillaClientes" AutoGenerateColumns="False" OnSelectedIndexChanged="dg_grillaClientes_SelectedIndexChanged" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical" EmptyDataText='"No se encontraron resultados"'>
                         <AlternatingRowStyle BackColor="#DCDCDC" />
                         <Columns>
                             <asp:CommandField HeaderText="Seleccionar" ShowSelectButton="True" />

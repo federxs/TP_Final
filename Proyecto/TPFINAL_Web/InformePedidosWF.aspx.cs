@@ -40,4 +40,10 @@ public partial class InformePedidosWF : System.Web.UI.Page
         gvPedidos.DataKeyNames = new string[] { "IdPedido" };
         gvPedidos.DataBind();
     }
+    protected void gvPedidos_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        cargarGrilla();
+        gvPedidos.PageIndex = e.NewPageIndex;
+        gvPedidos.DataBind();
+    }
 }
