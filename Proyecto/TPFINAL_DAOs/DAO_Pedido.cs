@@ -23,7 +23,7 @@ namespace DAOs
 		                        pe.fechaGeneracion 
 		                        from Producto p JOIN DetallePedido dpe on p.idProducto = dpe.idProducto 
                                 JOIN Pedido pe on pe.idPedido = dpe.idPedido JOIN TipoProducto tp on tp.idTipoProducto = p.idTipoProducto 
-		                        where 1=1";
+		                        where 1=1 and p.borrado= 0";
             if (!string.IsNullOrEmpty(nombre))
             {
                 cmd.CommandText += " and p.nombre Like @nombre";
@@ -38,6 +38,15 @@ namespace DAOs
             {
                 cmd.CommandText += " and pe.fechaGeneracion Between @fechaDesde and @fechaHasta";
                 cmd.Parameters.AddWithValue("@fechaDesde", fechaDesde);
+                cmd.Parameters.AddWithValue("@fechaHasta", fechaHasta);
+            }
+            if ((fechaDesde != null)&&(fechaHasta == null)){
+                cmd.CommandText += " and pe.fechaGeneracion > @fechaDesde";
+                cmd.Parameters.AddWithValue("@fechaDesde", fechaDesde);
+            }
+            if ((fechaHasta != null) && (fechaDesde == null))
+            {
+                cmd.CommandText += " and pe.fechaGeneracion < @fechaHasta";
                 cmd.Parameters.AddWithValue("@fechaHasta", fechaHasta);
             }
 

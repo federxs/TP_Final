@@ -11,6 +11,10 @@ public partial class InformePedidosWF : System.Web.UI.Page
     {
         if (!Page.IsPostBack)
         {
+            if (string.IsNullOrEmpty((string)Session["Usuario"]))
+            {
+                Response.Redirect("LoginWF.aspx");
+            }
             cargarCombo();
             cargarGrilla();
         }

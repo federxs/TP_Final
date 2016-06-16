@@ -38,15 +38,15 @@
                 </div>
                 <!--Inicio Grilla-->
                 <div class="form-group">
-                    <asp:GridView runat="server" ID="gvPedidos" AutoGenerateColumns="False" EmptyDataText="No se encontraron resultados" AllowPaging="True" AllowSorting="True" PageSize="2" OnPageIndexChanging="gvPedidos_PageIndexChanging" CellPadding="4" ForeColor="#333333" GridLines="None">
+                    <asp:GridView runat="server" ID="gvPedidos" AutoGenerateColumns="False" EmptyDataText="No se encontraron resultados" AllowPaging="True" AllowSorting="True" PageSize="15" OnPageIndexChanging="gvPedidos_PageIndexChanging" CellPadding="4" ForeColor="#333333" GridLines="None">
                         <AlternatingRowStyle BackColor="White" />
                         <Columns>
-                            <asp:BoundField DataField="Apellido" HeaderText="Apellido" />
-                            <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
                             <asp:BoundField DataField="IdPedido" HeaderText="N° Pedido" />
-                            <asp:BoundField DataField="Estado" HeaderText="Estado" />
-                            <asp:BoundField DataField="FechaEntrega" HeaderText="Fecha Entrega" DataFormatString="{0:dd/MM/yyyy}" />
-                            <asp:BoundField DataField="Total" HeaderText="Total" />
+                            <asp:BoundField DataField="Apellido" HeaderText="  Apellido  " />
+                            <asp:BoundField DataField="Nombre" HeaderText="  Nombre  " />
+                            <asp:BoundField DataField="Estado" HeaderText="  Estado  " />
+                            <asp:BoundField DataField="FechaEntrega" HeaderText="  Fecha Entrega  " DataFormatString="{0:dd/MM/yyyy}" />
+                            <asp:BoundField DataField="Total" HeaderText="  Total  " />
                         </Columns>
                         <EditRowStyle BackColor="#2461BF" />
                         <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />

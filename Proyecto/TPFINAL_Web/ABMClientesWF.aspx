@@ -3,11 +3,6 @@
 <asp:Content ID="Contenido1" ContentPlaceHolderID="ContentPlaceHolderMaster" runat="server">
     <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
-        <script>
-            $(function () {
-                $("#txt_apellido").datepicker({ dateFormat: 'dd/mm/yy' }).val();
-            });
-        </script>
         <!--INICIO FORMULARIO CLIENTES-->
         <form class="form form-inline form-multiline" id="frm_inicio" role="form" runat="server" method="post">
             <h3>Clientes</h3>
@@ -22,17 +17,14 @@
                     <asp:ValidationSummary runat="server" ID="valSummary" HeaderText="Revise los siguientes errores:" ShowSummary="true" DisplayMode="BulletList" ValidationGroup="A" ShowMessageBox="False" />
                 </div>
                 <div class="form-group">
-                    <label for="txt_apellido" runat="server">Apellido:</label>
+                    <label for="txt_apellido" runat="server">Apellido: *</label>
                     <asp:TextBox ID="txt_apellido" runat="server" CssClass="form-control" PlaceHolder="Apellido" MaxLength="35"></asp:TextBox>
+                    <asp:RequiredFieldValidator ErrorMessage="Debe ingresar un apellido" Text="*" ValidationGroup="A" ID="rfvApellido" ControlToValidate="txt_apellido" runat="server" />
                 </div>
                 <div class="form-group">
-                    <!--<asp:Label ID="lbl_nombre" runat="server" Text="Nombre: "></asp:Label>-->
                     <label for="txt_nombre">Nombre:</label>
-                    <asp:TextBox ID="txt_nombre" runat="server" CssClass="form-control" PlaceHolder="Nombre" MaxLength="35"></asp:TextBox>
-                </div>
-                <div class="form-group">
-                    <label for="txt_razonSocial">Razon Social:</label>
-                    <asp:TextBox ID="txt_razonSocial" runat="server" CssClass="form-control" PlaceHolder="Razon Social" MaxLength="35"></asp:TextBox>
+                    <asp:TextBox ID="txt_nombre" runat="server" CssClass="form-control" PlaceHolder="Nombre: *" MaxLength="35"></asp:TextBox>
+                    <asp:RequiredFieldValidator ErrorMessage="Debe ingresar un nombre" Text="*" ValidationGroup="A" ID="rfvNombre" ControlToValidate="txt_nombre" runat="server" />
                 </div>
                 <div class="form-group">
                     <label for="ddl_tipoDoc">Tipo Doc: *</label>
@@ -43,11 +35,11 @@
                     <label for="txt_doc">Num. de Doc: *</label>
                     <asp:TextBox ID="txt_doc" runat="server" CssClass="form-control" PlaceHolder="N° de Doc"></asp:TextBox>
                     <asp:RequiredFieldValidator runat="server" ID="reqFieldDoc" ControlToValidate="txt_doc" Text="*" ErrorMessage="El número de documento no puede estar vacío" InitialValue="" Display="Dynamic" ValidationGroup="A" />
-                    <asp:RangeValidator ID="rvDoc" ErrorMessage="El número de documento ingresado no es válido" ControlToValidate="txt_doc" runat="server" Text="*" ValidationGroup="A" MinimumValue="0" MaximumValue="50000000" Type="Integer" />
+                    <asp:RangeValidator ID="rvDoc" ErrorMessage="El número de documento ingresado no es válido" ControlToValidate="txt_doc" runat="server" Text="*" ValidationGroup="A" MinimumValue="0" MaximumValue="99999999" Type="Integer" />
                 </div>
                 <div class="form-group">
                     <label for="txt_direccion">Domicilio: *</label>
-                    <asp:TextBox ID="txt_direccion" runat="server" CssClass="form-control" PlaceHolder="Domicilio" MaxLength="35"/>
+                    <asp:TextBox ID="txt_direccion" runat="server" CssClass="form-control" PlaceHolder="Domicilio" MaxLength="35" />
                     <asp:RequiredFieldValidator runat="server" ID="reqFieldDirec" ControlToValidate="txt_direccion" Text="*" ErrorMessage="El domicilio no puede estar vacío" InitialValue="" Display="Dynamic" ValidationGroup="A" />
                 </div>
                 <div class="form-group">
@@ -126,7 +118,7 @@
                 </div>
                 <!--Fin Buscador-->
                 <div class="form-group">
-                    <asp:GridView ID="gv_grillaClientes" AutoGenerateColumns="False" OnSelectedIndexChanged="dg_grillaClientes_SelectedIndexChanged" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical" EmptyDataText='"No se encontraron resultados"'>
+                    <asp:GridView ID="gv_grillaClientes" AutoGenerateColumns="False" OnSelectedIndexChanged="dg_grillaClientes_SelectedIndexChanged" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical" EmptyDataText='"No se encontraron resultados"' AllowPaging="True" PageSize="15" OnPageIndexChanging="gv_grillaClientes_PageIndexChanging">
                         <AlternatingRowStyle BackColor="#DCDCDC" />
                         <Columns>
                             <asp:CommandField HeaderText="Seleccionar" ShowSelectButton="True" />
@@ -144,7 +136,13 @@
                         <SortedDescendingCellStyle BackColor="#CAC9C9" />
                         <SortedDescendingHeaderStyle BackColor="#000065" />
                     </asp:GridView>
+                    <i>Estas viendo la pagina
+                    <%=gv_grillaClientes.PageIndex + 1%>
+                    de
+                    <%=gv_grillaClientes.PageCount%>
+                    </i>
                 </div>
+
             </div>
             <!-- Fin Grilla Clientes -->
         </form>

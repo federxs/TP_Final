@@ -15,6 +15,10 @@ public partial class Inicio_WF : System.Web.UI.Page
         Page.Title = "Clientes";
         if (!Page.IsPostBack)
         {
+            if (string.IsNullOrEmpty((string)Session["Usuario"]))
+            {
+                Response.Redirect("LoginWF.aspx");
+            }
             cargarTipoDoc();
             cargarProvincias();
             cargarGrilla();
@@ -28,7 +32,7 @@ public partial class Inicio_WF : System.Web.UI.Page
 
     private void cargarGrilla()
     {
-        gv_grillaClientes.DataSource = (from cli in DAO_Cliente.ObtenerTodos() orderby cli.Apellido, cli.Nombre select cli);
+        gv_grillaClientes.DataSource = DAO_Cliente.ObtenerTodos();
         gv_grillaClientes.DataKeyNames = new string[] { "idCliente" };
         gv_grillaClientes.DataBind();
     }
@@ -79,7 +83,6 @@ public partial class Inicio_WF : System.Web.UI.Page
             Cliente clienteNuevo = new Cliente();
             clienteNuevo.Apellido = txt_apellido.Text;
             clienteNuevo.Nombre = txt_nombre.Text;
-            clienteNuevo.RazonSocial = txt_razonSocial.Text;
             clienteNuevo.FechaAlta = DateTime.Now;
             clienteNuevo.Email = txt_email.Text;
             clienteNuevo.TipoDoc = int.Parse(ddl_tipoDoc.SelectedItem.Value);
@@ -153,7 +156,6 @@ public partial class Inicio_WF : System.Web.UI.Page
         Cliente cliente = DAO_Cliente.ObtenerPorID(idCliente);
         txt_apellido.Text = cliente.Apellido;
         txt_nombre.Text = cliente.Nombre;
-        txt_razonSocial.Text = cliente.RazonSocial;
         ddl_tipoDoc.SelectedValue = cliente.TipoDoc.ToString();
         txt_doc.Text = cliente.NumeroDoc.ToString();
         txt_direccion.Text = cliente.Direccion;
@@ -198,7 +200,6 @@ public partial class Inicio_WF : System.Web.UI.Page
         txt_doc.Text = "";
         txt_email.Text = "";
         txt_numeroTel.Text = "";
-        txt_razonSocial.Text = "";
         txt_saldo.Text = "";
         ddl_localidad.SelectedIndex = 0;
         ddl_provincia.SelectedIndex = 0;
@@ -217,7 +218,6 @@ public partial class Inicio_WF : System.Web.UI.Page
         txt_doc.Enabled = !x;
         txt_email.Enabled = !x;
         txt_numeroTel.Enabled = !x;
-        txt_razonSocial.Enabled = !x;
         txt_saldo.Enabled = !x;
         ddl_localidad.Enabled = !x;
         ddl_provincia.Enabled = !x;
@@ -276,8 +276,14 @@ public partial class Inicio_WF : System.Web.UI.Page
     }
     protected void btnBuscar_Click(object sender, EventArgs e)
     {
-        gv_grillaClientes.DataSource = (from cli in DAO_Cliente.ObtenerTodos(txtBuscar.Text) orderby cli.Apellido, cli.Nombre select cli);
+        gv_grillaClientes.DataSource = DAO_Cliente.ObtenerTodos(txtBuscar.Text);
         gv_grillaClientes.DataKeyNames = new string[] { "idCliente" };
+        gv_grillaClientes.DataBind();
+    }
+    protected void gv_grillaClientes_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        cargarGrilla();
+        gv_grillaClientes.PageIndex = e.NewPageIndex;
         gv_grillaClientes.DataBind();
     }
 }

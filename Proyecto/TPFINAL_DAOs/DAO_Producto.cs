@@ -193,8 +193,8 @@ namespace DAOs
                               ,[imagen], [fechaAlta] from Producto where borrado = 0";
             if (!string.IsNullOrEmpty(nombreBusqueda))
             {
-                cmd.CommandText += @" and nombre LIKE '%@nombre%'";
-                cmd.Parameters.AddWithValue("@nombre", nombreBusqueda);
+                cmd.CommandText += " and nombre Like @nombreBusqueda";
+                cmd.Parameters.AddWithValue("@nombreBusqueda", nombreBusqueda + "%");
             }
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())

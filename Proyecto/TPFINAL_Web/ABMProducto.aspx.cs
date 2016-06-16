@@ -12,6 +12,10 @@ public partial class ABMProducto : System.Web.UI.Page
     {
         if (!Page.IsPostBack)
         {
+            if (string.IsNullOrEmpty((string)Session["Usuario"]))
+            {
+                Response.Redirect("LoginWF.aspx");
+            }
             Page.DataBind();
             cargarGrilla();
             cmb_tipoProducto.DataTextField = "descripcion";
@@ -166,8 +170,8 @@ public partial class ABMProducto : System.Web.UI.Page
     }
     protected void btnBuscar_Click(object sender, EventArgs e)
     {
-        dgv_producto.DataSource = (from cli in DAO_Cliente.ObtenerTodos(txtBuscar.Text) orderby cli.Apellido, cli.Nombre select cli);
-        dgv_producto.DataKeyNames = new string[] { "idCliente" };
+        dgv_producto.DataSource = DAO_Producto.obtenerTodos(txtBuscar.Text);
+        dgv_producto.DataKeyNames = new string[] { "idProducto" };
         dgv_producto.DataBind();
     }
 }

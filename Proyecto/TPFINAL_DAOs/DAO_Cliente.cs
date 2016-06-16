@@ -33,14 +33,13 @@ namespace DAOs
                 conexion.Open();
                 SqlCommand comando = new SqlCommand();
                 comando.Connection = conexion;
-                comando.CommandText = @"UPDATE [ProyectoWeb].[dbo].Cliente SET [nombre] = @nombre, [apellido] = @apellido, [razonSocial] = @razonSocial, [telefono] = @telefono, [email] = @email
+                comando.CommandText = @"UPDATE [ProyectoWeb].[dbo].Cliente SET [nombre] = @nombre, [apellido] = @apellido, [telefono] = @telefono, [email] = @email
                                     ,[cuit] = @cuit, [sexo] = @sexo, [direccion] = @direccion, [idLocalidad] = @idLocalidad, [numeroDoc] = @numeroDoc
                                     ,[idTipoDoc] = @idTipoDoc, [fechaAlta] = @fechaAlta, [saldo] = @saldo, [borrado] = 0 
                                     WHERE idCliente = @idCliente";
                 comando.Parameters.AddWithValue("@idCliente", cliente.IdCliente);
                 comando.Parameters.AddWithValue("@nombre", cliente.Nombre);
                 comando.Parameters.AddWithValue("@apellido", cliente.Apellido);
-                comando.Parameters.AddWithValue("@razonSocial", cliente.RazonSocial);
                 comando.Parameters.AddWithValue("@telefono", cliente.Telefono);
                 comando.Parameters.AddWithValue("@email", cliente.Email);
                 comando.Parameters.AddWithValue("@cuit", cliente.Cuit);
@@ -72,14 +71,13 @@ namespace DAOs
                 conexion.Open();
                 SqlCommand comando = new SqlCommand();
                 comando.Connection = conexion;
-                comando.CommandText = @"INSERT INTO [ProyectoWeb].[dbo].Cliente([nombre],[apellido],[razonSocial],
+                comando.CommandText = @"INSERT INTO [ProyectoWeb].[dbo].Cliente([nombre],[apellido],
                 [telefono],[email],[cuit],[sexo],[direccion],[idLocalidad],
                 [numeroDoc],[idTipoDoc],[fechaAlta],[saldo],[borrado]) VALUES(@nombre,@apellido,@razonSocial,
                 @telefono,@email,@cuit,@sexo,@direccion,@idLocalidad,
                 @numeroDoc,@idTipoDoc,@fechaAlta,@saldo,@borrado)";
                 comando.Parameters.AddWithValue("@nombre", cliente.Nombre);
                 comando.Parameters.AddWithValue("@apellido", cliente.Apellido);
-                comando.Parameters.AddWithValue("@razonSocial", cliente.RazonSocial);
                 comando.Parameters.AddWithValue("@telefono", cliente.Telefono);
                 comando.Parameters.AddWithValue("@email", cliente.Email);
                 comando.Parameters.AddWithValue("@cuit", cliente.Cuit);
@@ -117,9 +115,9 @@ namespace DAOs
                 conexion.Open();
                 SqlCommand comando = new SqlCommand();
                 comando.Connection = conexion;
-                comando.CommandText = @"SELECT top 1000 C.[idCliente],C.[nombre],C.[apellido],C.[razonSocial], C.[idLocalidad],
+                comando.CommandText = @"SELECT top 1000 C.[idCliente],C.[nombre],C.[apellido], C.[idLocalidad],
                 C.[telefono],C.[email],C.[cuit],C.[sexo],C.[direccion], C.[saldo], C.[borrado], C.[idTipoDoc],
-                C.[numeroDoc],C.[idTipoDoc], C.[fechaAlta] FROM [ProyectoWeb].[dbo].Cliente C";
+                C.[numeroDoc],C.[idTipoDoc], C.[fechaAlta] FROM [ProyectoWeb].[dbo].Cliente C WHERE borrado = 0";
                 SqlDataReader dataReader = comando.ExecuteReader();
                 while (dataReader.Read())
                 {
@@ -135,14 +133,10 @@ namespace DAOs
                         TipoDoc = int.Parse(dataReader["idTipoDoc"].ToString()),
                         FechaAlta = (DateTime)dataReader["fechaAlta"],
                         Saldo = float.Parse(dataReader["saldo"].ToString()),
-                        Borrado = Convert.ToBoolean(dataReader["borrado"].ToString())
+                        Borrado = Convert.ToBoolean(dataReader["borrado"].ToString()),
+                        Apellido = dataReader["apellido"].ToString(),
+                        Nombre = dataReader["nombre"].ToString()
                     };
-                    if (dataReader["apellido"] != DBNull.Value)
-                        cliente.Apellido = dataReader["apellido"].ToString();
-                    if (dataReader["nombre"] != DBNull.Value)
-                        cliente.Nombre = dataReader["nombre"].ToString();
-                    if (dataReader["razonSocial"] != DBNull.Value)
-                        cliente.RazonSocial = dataReader["razonSocial"].ToString();
                     if (Convert.ToBoolean(dataReader["sexo"].ToString()))
                         cliente.Sexo = "Masculino";
                     else
@@ -169,13 +163,13 @@ namespace DAOs
                 conexion.Open();
                 SqlCommand comando = new SqlCommand();
                 comando.Connection = conexion;
-                comando.CommandText = @"SELECT top 1000 C.[idCliente],C.[nombre],C.[apellido],C.[razonSocial], C.[idLocalidad],
+                comando.CommandText = @"SELECT top 1000 C.[idCliente],C.[nombre],C.[apellido], C.[idLocalidad],
                 C.[telefono],C.[email],C.[cuit],C.[sexo],C.[direccion], C.[saldo], C.[borrado], C.[idTipoDoc],
-                C.[numeroDoc],C.[idTipoDoc], C.[fechaAlta] FROM [ProyectoWeb].[dbo].Cliente C";
+                C.[numeroDoc],C.[idTipoDoc], C.[fechaAlta] FROM [ProyectoWeb].[dbo].Cliente C WHERE borrado = 0";
                 if (!string.IsNullOrEmpty(apellidoBusqueda))
                 {
-                    comando.CommandText += " WHERE C.[apellido] LIKE '%@apellido%'";
-                    comando.Parameters.AddWithValue("@apellido", apellidoBusqueda.ToLower());
+                    comando.CommandText += " AND C.[apellido] LIKE @apellido";
+                    comando.Parameters.AddWithValue("@apellido", "%" + apellidoBusqueda.ToLower() + "%");
                 }
                 SqlDataReader dataReader = comando.ExecuteReader();
                 while (dataReader.Read())
@@ -192,14 +186,10 @@ namespace DAOs
                         TipoDoc = int.Parse(dataReader["idTipoDoc"].ToString()),
                         FechaAlta = (DateTime)dataReader["fechaAlta"],
                         Saldo = float.Parse(dataReader["saldo"].ToString()),
-                        Borrado = Convert.ToBoolean(dataReader["borrado"].ToString())
+                        Borrado = Convert.ToBoolean(dataReader["borrado"].ToString()),
+                        Apellido = dataReader["apellido"].ToString(),
+                        Nombre = dataReader["nombre"].ToString()
                     };
-                    if (dataReader["apellido"] != DBNull.Value)
-                        cliente.Apellido = dataReader["apellido"].ToString();
-                    if (dataReader["nombre"] != DBNull.Value)
-                        cliente.Nombre = dataReader["nombre"].ToString();
-                    if (dataReader["razonSocial"] != DBNull.Value)
-                        cliente.RazonSocial = dataReader["razonSocial"].ToString();
                     if (Convert.ToBoolean(dataReader["sexo"].ToString()))
                         cliente.Sexo = "Masculino";
                     else
@@ -226,7 +216,7 @@ namespace DAOs
                 conexion.Open();
                 SqlCommand comando = new SqlCommand();
                 comando.Connection = conexion;
-                comando.CommandText = @"SELECT  C.[idCliente],C.[nombre],C.[apellido],C.[razonSocial], C.[idLocalidad],
+                comando.CommandText = @"SELECT  C.[idCliente],C.[nombre],C.[apellido],C.[idLocalidad],
                 C.[telefono],C.[email],C.[cuit],C.[sexo],C.[direccion], C.[saldo], C.[borrado], C.[idTipoDoc],
                 C.[numeroDoc],C.[idTipoDoc], C.[fechaAlta] FROM [ProyectoWeb].[dbo].Cliente C WHERE C.idCliente = @idCliente";
                 comando.Parameters.AddWithValue("@idCliente", idCliente);
@@ -245,14 +235,10 @@ namespace DAOs
                          TipoDoc = int.Parse(dataReader["idTipoDoc"].ToString()),
                          FechaAlta = (DateTime)dataReader["fechaAlta"],
                          Saldo = float.Parse(dataReader["saldo"].ToString()),
-                         Borrado = Convert.ToBoolean(dataReader["borrado"].ToString())
+                         Borrado = Convert.ToBoolean(dataReader["borrado"].ToString()),
+                         Apellido = dataReader["apellido"].ToString(),
+                         Nombre = dataReader["nombre"].ToString()
                      };
-                    if (dataReader["apellido"] != DBNull.Value)
-                        cliente.Apellido = dataReader["apellido"].ToString();
-                    if (dataReader["nombre"] != DBNull.Value)
-                        cliente.Nombre = dataReader["nombre"].ToString();
-                    if (dataReader["razonSocial"] != DBNull.Value)
-                        cliente.RazonSocial = dataReader["razonSocial"].ToString();
                     if (Convert.ToBoolean(dataReader["sexo"].ToString()))
                         cliente.Sexo = "Masculino";
                     else

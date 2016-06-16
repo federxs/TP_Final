@@ -12,7 +12,6 @@ namespace Entidades
         public int IdCliente { get; set; }
         public string Apellido { get; set; }
         public string Nombre { get; set; }
-        public string RazonSocial { get; set; }
         public string Cuit { get; set; }
         public long Telefono { get; set; }
         public string Email { get; set; }
@@ -32,7 +31,6 @@ namespace Entidades
             IdCliente = idCliente;
             Apellido = apellido;
             Nombre = nombre;
-            RazonSocial = razonSocial;
             Cuit = cuit;
             Sexo = sexo;
             Telefono = telefono;
