@@ -40,7 +40,8 @@ namespace DAOs
                 cmd.Parameters.AddWithValue("@fechaDesde", fechaDesde);
                 cmd.Parameters.AddWithValue("@fechaHasta", fechaHasta);
             }
-            if ((fechaDesde != null)&&(fechaHasta == null)){
+            if ((fechaDesde != null) && (fechaHasta == null))
+            {
                 cmd.CommandText += " and pe.fechaGeneracion > @fechaDesde";
                 cmd.Parameters.AddWithValue("@fechaDesde", fechaDesde);
             }
@@ -102,6 +103,70 @@ namespace DAOs
             dr.Close();
             cn.Close();
             return lista;
+        }
+
+        public static List<Pedido> obtenerPedidoPorCliente(int idCli)
+        {
+            List<Pedido> lista = new List<Pedido>();
+            try
+            {
+                SqlConnection cn = new SqlConnection();
+                cn.ConnectionString = DAOs.StringConexion.StringBD;
+                cn.Open();
+                //2. Crear el objeto command para ejecutar el insert
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.CommandText = @"Select idPedido, fechaGeneracion, fechaEntrega, idEstado, idCliente, total
+                                    From Pedido  
+                                    where idCliente = @idCliente and (idEstado = 1 or idEstado = 3)";
+                cmd.Parameters.AddWithValue("@idCliente", idCli);
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Pedido p = new Pedido();
+                    int idPedido = int.Parse(dr["idPedido"].ToString());
+                    DateTime fechaGeneracion = (DateTime)dr["fechaGeneracion"];
+                    DateTime fechaEntrega = (DateTime)dr["fechaEntrega"];
+                    fechaGeneracion.ToString("dd/mm/yyyy");
+                    fechaEntrega.ToString("dd/mm/yyyy");
+                    int idEstado = int.Parse(dr["idEstado"].ToString());
+                    int idCliente = int.Parse(dr["idCliente"].ToString());
+                    float total = float.Parse(dr["total"].ToString());
+                    p.total = total;
+                    p.idCliente = idCliente;
+                    p.idEstado = idEstado;
+                    p.fechaEntrega = fechaEntrega;
+                    p.fechaGeneracion = fechaGeneracion;
+                    p.idPedido = idPedido;
+                    lista.Add(p);
+                }
+
+            }
+            catch (SqlException exSql) { throw exSql; }
+            return lista;
+        }
+
+        public static float obtenerMontoPorPedido(int idPedido)
+        {
+            float monto = 0;
+            try {
+                SqlConnection cn = new SqlConnection();
+                cn.ConnectionString = cn.ConnectionString = DAOs.StringConexion.StringBD;
+                cn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.CommandText = @"Select total
+                                from Pedido 
+                                where idPedido=@id";
+                cmd.Parameters.AddWithValue("@id", idPedido);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.Read())
+                {
+                    monto = float.Parse(dr["total"].ToString());
+                }
+            }
+            catch (SqlException exSql) { throw exSql; }
+            return monto;
         }
     }
 }

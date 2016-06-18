@@ -23,7 +23,7 @@
                         <asp:DropDownList ID="cmb_TipoProducto" CssClass="form-control" runat="server"></asp:DropDownList>
                     </div>
                     <div class="form-group">
-                        <label>Filtrar por Precio:</label>
+                        <label>Filtrar por Precio mayor a:</label>
                         <asp:TextBox ID="txt_precio" CssClass="form-control" runat="server"></asp:TextBox>
                         <asp:RangeValidator ID="rvg_precio" runat="server" ControlToValidate="txt_precio" Display="Dynamic" ErrorMessage="El precio Ingresado es incorrecto" MaximumValue="99999999" MinimumValue="0" ValidationGroup="A">*</asp:RangeValidator>
                     </div>
@@ -48,27 +48,44 @@
                     <br />
                     <asp:Label ID="lbl_resultados" runat="server"></asp:Label>
                     <br />
-                    <asp:GridView ID="dgv_pedido" runat="server" AutoGenerateColumns="False">
-                        <Columns>
-                            <asp:BoundField DataField="nombre" HeaderText="Nombre Producto" />
-                            <asp:BoundField DataField="precio" HeaderText="Precio Prodcuto" />
-                            <asp:BoundField DataField="descripcionTipoProducto" HeaderText="Tipo de Producto" />
-                            <asp:BoundField DataField="fechaAlta" HeaderText="Fecha de Alta del Producto" DataFormatString="{0:d}" />
-                            <asp:BoundField DataField="idPedido" HeaderText="Id del Pedido" />
-                            <asp:BoundField DataField="fechaGeneracionPedido" HeaderText="Fecha de Generacion del Pedido" DataFormatString="{0:d}" />
-                        </Columns>
-                    </asp:GridView>
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
+                    <div class="form-group">
+                        <asp:GridView ID="dgv_pedido" runat="server" EmptyDataText="No se encontraron resultados" AutoGenerateColumns="False"  AllowPaging="True" AllowSorting="True" PageSize="15" OnPageIndexChanging="dgv_pedido_PageIndexChanging" CellPadding="4" ForeColor="#333333" GridLines="None">
+                            <Columns>
+                                <asp:BoundField DataField="nombre" HeaderText="Nombre Producto" />
+                                <asp:BoundField DataField="precio" HeaderText="Precio Prodcuto" />
+                                <asp:BoundField DataField="descripcionTipoProducto" HeaderText="Tipo de Producto" />
+                                <asp:BoundField DataField="fechaAlta" HeaderText="Fecha de Alta del Producto" DataFormatString="{0:d}" />
+                                <asp:BoundField DataField="idPedido" HeaderText="Id del Pedido" />
+                                <asp:BoundField DataField="fechaGeneracionPedido" HeaderText="Fecha de Generacion del Pedido" DataFormatString="{0:d}" />
+                            </Columns>
+                            <EditRowStyle BackColor="#2461BF" />
+                            <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                            <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
+                            <RowStyle BackColor="#EFF3FB" />
+                            <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                            <SortedAscendingCellStyle BackColor="#F5F7FB" />
+                            <SortedAscendingHeaderStyle BackColor="#6D95E1" />
+                            <SortedDescendingCellStyle BackColor="#E9EBEF" />
+                            <SortedDescendingHeaderStyle BackColor="#4870BE" />
+                        </asp:GridView>
+                        <i>Estas viendo la pagina
+                    <%=dgv_pedido.PageIndex + 1%>
+                    de
+                    <%=dgv_pedido.PageCount%>
+                        </i>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                    </div>
                 </div>
             </div>
         </form>

@@ -224,21 +224,21 @@ namespace DAOs
                 if (dataReader.Read())
                 {
                     cliente = new Cliente()
-                     {
-                         IdCliente = int.Parse(dataReader["idCliente"].ToString()),
-                         Telefono = long.Parse(dataReader["telefono"].ToString()),
-                         Email = dataReader["email"].ToString(),
-                         Cuit = dataReader["cuit"].ToString(),
-                         Direccion = dataReader["direccion"].ToString(),
-                         Localidad = int.Parse(dataReader["idLocalidad"].ToString()),
-                         NumeroDoc = int.Parse(dataReader["numeroDoc"].ToString()),
-                         TipoDoc = int.Parse(dataReader["idTipoDoc"].ToString()),
-                         FechaAlta = (DateTime)dataReader["fechaAlta"],
-                         Saldo = float.Parse(dataReader["saldo"].ToString()),
-                         Borrado = Convert.ToBoolean(dataReader["borrado"].ToString()),
-                         Apellido = dataReader["apellido"].ToString(),
-                         Nombre = dataReader["nombre"].ToString()
-                     };
+                    {
+                        IdCliente = int.Parse(dataReader["idCliente"].ToString()),
+                        Telefono = long.Parse(dataReader["telefono"].ToString()),
+                        Email = dataReader["email"].ToString(),
+                        Cuit = dataReader["cuit"].ToString(),
+                        Direccion = dataReader["direccion"].ToString(),
+                        Localidad = int.Parse(dataReader["idLocalidad"].ToString()),
+                        NumeroDoc = int.Parse(dataReader["numeroDoc"].ToString()),
+                        TipoDoc = int.Parse(dataReader["idTipoDoc"].ToString()),
+                        FechaAlta = (DateTime)dataReader["fechaAlta"],
+                        Saldo = float.Parse(dataReader["saldo"].ToString()),
+                        Borrado = Convert.ToBoolean(dataReader["borrado"].ToString()),
+                        Apellido = dataReader["apellido"].ToString(),
+                        Nombre = dataReader["nombre"].ToString()
+                    };
                     if (Convert.ToBoolean(dataReader["sexo"].ToString()))
                         cliente.Sexo = "Masculino";
                     else
@@ -252,6 +252,39 @@ namespace DAOs
             catch (SystemException ex) { throw ex; }
             catch (ApplicationException ex) { throw ex; }
             catch (Exception ex) { throw ex; }
+        }
+        public static List<Cliente> obtenerClientesTransaccion()
+        {
+            List<Cliente> lista = new List<Cliente>();
+            try
+            {
+                SqlConnection cn = new SqlConnection();
+                cn.ConnectionString = DAOs.StringConexion.StringBD;
+                cn.Open();
+                //2. Crear el objeto command para ejecutar el insert
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.CommandText = @"Select distinct c.nombre, c.apellido, c.idCliente 
+                                From Pedido p Join Cliente c on p.idCliente = c.idCliente 
+                                where p.idEstado = 1 or p.idEstado = 3 
+                                order by c.idCliente";
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Cliente c = new Cliente();
+                    int idCliente = int.Parse(dr["idCliente"].ToString());
+                    String nombre = dr["nombre"].ToString();
+                    String apellido = dr["apellido"].ToString();
+                    c.Apellido = apellido;
+                    c.Nombre = nombre;
+                    c.IdCliente = idCliente;
+                    lista.Add(c);
+                }
+                dr.Close();
+                cn.Close();
+            }
+            catch (SqlException exSql) { throw exSql; }
+            return lista;
         }
     }
 }

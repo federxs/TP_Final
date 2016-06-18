@@ -40,8 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cliente.cs" />
+    <Compile Include="DetallePago.cs" />
     <Compile Include="Estado.cs" />
     <Compile Include="FormaPago.cs" />
+    <Compile Include="DetallePagoGrillaEntidad.cs" />
     <Compile Include="Localidad.cs" />
     <Compile Include="Pais.cs" />
     <Compile Include="Pedido.cs" />

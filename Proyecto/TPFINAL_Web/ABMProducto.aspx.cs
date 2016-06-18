@@ -129,11 +129,14 @@ public partial class ABMProducto : System.Web.UI.Page
 
     protected void btn_eliminar_Click(object sender, EventArgs e)
     {
-        DAOs.DAO_Producto.eliminar(ID.Value);
-        limpiar();
-        cargarGrilla();
-        ID = null;
-        btn_modificar.Enabled = false;
+        if (ID.HasValue)
+        {
+            DAOs.DAO_Producto.eliminar(ID.Value);
+            limpiar();
+            cargarGrilla();
+            ID = null;
+            btn_modificar.Enabled = false;
+        }
     }
 
     protected void btn_modificar_Click(object sender, EventArgs e)

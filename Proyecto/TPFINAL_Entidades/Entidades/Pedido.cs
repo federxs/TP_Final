@@ -12,7 +12,7 @@ namespace Entidades
         public DateTime fechaGeneracion { set; get; }
         public DateTime fechaEntrega { set; get; }
         public int idCliente { set; get; }
-        public Estado idEstado { set; get; }
+        public int idEstado { set; get; }
         public float total { set; get; }
     }
 }
