@@ -8,9 +8,12 @@
             <h3>Clientes</h3>
             <p style="color: gray">
                 Los marcados con (*) son obligatorios
-           
             </p>
-
+            <!--Mensajes-->
+            <div>
+                <asp:Label CssClass="label" ID="lblMensajes" Text="" runat="server" Font-Size="Large" />
+            </div>
+            <!--Fin Mensajes-->
             <div class="container col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <br />
                 <div class="container col-lg-9 col-md-9 col-sm-9 col-xs-12" style="background-color: lightsalmon">
@@ -98,11 +101,6 @@
                 </div>
                 <!--Fin Botones-->
                 <br />
-                <!--Mensajes-->
-                <div>
-                    <asp:Label CssClass="label" ID="lblMensajes" Text="" runat="server" Font-Size="Large" />
-                </div>
-                <!--Fin Mensajes-->
 
                 <br />
                 <br />

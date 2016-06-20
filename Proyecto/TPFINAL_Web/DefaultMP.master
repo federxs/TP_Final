@@ -46,8 +46,15 @@
                         <li class="active">
                             <a href="Home.aspx">Home</a>
                         </li>
-                        <li>
-                            <a href="#">Sobre Nosotros</a>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Transacciones <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header">Transacciones</li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="RegistrarPedidoWF.aspx">Registrar Pedido</a></li>
+                                <li><a href="#">Registrar Pago</a></li>
+                            </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Informes <b class="caret"></b>

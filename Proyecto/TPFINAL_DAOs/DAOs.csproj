@@ -56,6 +56,9 @@
     <Compile Include="StringConexion.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\TPFINAL_Entidades\Entidades\Entidades.csproj">
       <Project>{bc36c7a1-146c-44ed-8115-e5abc3b8ba93}</Project>
       <Name>Entidades</Name>

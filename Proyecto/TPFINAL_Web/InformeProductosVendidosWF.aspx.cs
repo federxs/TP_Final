@@ -62,7 +62,7 @@ public partial class InformeProductosVendidos : System.Web.UI.Page
         fechaHasta = DateTime.Parse(txt_Hasta.Text);
 
 
-        List<ProductoFiltrado> lista = DAOs.DAO_Pedido.obtenerProductosPorFiltro(idTipoProducto, nombre, precio, fechaDesde, fechaHasta); 
+        List<ProductoFiltrado> lista = DAOs.DAO_Producto.obtenerProductosPorFiltro(idTipoProducto, nombre, precio, fechaDesde, fechaHasta); 
         if (lista.Count() > 0)
         {
             dgv_pedido.DataSource = lista;
@@ -79,7 +79,7 @@ public partial class InformeProductosVendidos : System.Web.UI.Page
 
     protected void btn_mostrarTodos_Click(object sender, EventArgs e)
     {
-        List<ProductoFiltrado> lista = DAOs.DAO_Pedido.obtenerProductosPorFiltro(null, null, null, null, null);
+        List<ProductoFiltrado> lista = DAOs.DAO_Producto.obtenerProductosPorFiltro(null, null, null, null, null);
         dgv_pedido.DataSource = lista;
         dgv_pedido.DataBind();
         txt_Desde.Text = String.Empty;

@@ -10,98 +10,51 @@ namespace DAOs
 {
     public static class DAO_Pedido
     {
-        public static List<ProductoFiltrado> obtenerProductosPorFiltro(int? idTipoProducto, String nombre, float? precio, DateTime? fechaDesde, DateTime? fechaHasta)
+        public static void Insertar(Pedido pedido, List<DetallePedido> detalles)
         {
-            List<ProductoFiltrado> lista = new List<ProductoFiltrado>();
-            SqlConnection cn = new SqlConnection();
-            cn.ConnectionString = cn.ConnectionString = DAOs.StringConexion.StringBD;
-            cn.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = cn;
-            cmd.CommandText = @"Select p.idProducto, p.nombre, p.precio, 
-		                        tp.descripcion, p.fechaAlta, pe.idPedido,
-		                        pe.fechaGeneracion 
-		                        from Producto p JOIN DetallePedido dpe on p.idProducto = dpe.idProducto 
-                                JOIN Pedido pe on pe.idPedido = dpe.idPedido JOIN TipoProducto tp on tp.idTipoProducto = p.idTipoProducto 
-		                        where 1=1 and p.borrado= 0";
-            if (!string.IsNullOrEmpty(nombre))
+            SqlConnection conexion = new SqlConnection();
+            conexion.ConnectionString = StringConexion.StringBD;
+            conexion.Open();
+            SqlTransaction transaccion = conexion.BeginTransaction();
+            try
             {
-                cmd.CommandText += " and p.nombre Like @nombre";
-                cmd.Parameters.AddWithValue("@nombre", nombre + "%");
-            }
-            if (idTipoProducto != null)
-            {
-                cmd.CommandText += " and p.idTipoProducto = @idTipoProducto";
-                cmd.Parameters.AddWithValue("@idTipoProducto", idTipoProducto);
-            }
-            if ((fechaDesde != null) && (fechaHasta != null))
-            {
-                cmd.CommandText += " and pe.fechaGeneracion Between @fechaDesde and @fechaHasta";
-                cmd.Parameters.AddWithValue("@fechaDesde", fechaDesde);
-                cmd.Parameters.AddWithValue("@fechaHasta", fechaHasta);
-            }
-            if ((fechaDesde != null)&&(fechaHasta == null)){
-                cmd.CommandText += " and pe.fechaGeneracion > @fechaDesde";
-                cmd.Parameters.AddWithValue("@fechaDesde", fechaDesde);
-            }
-            if ((fechaHasta != null) && (fechaDesde == null))
-            {
-                cmd.CommandText += " and pe.fechaGeneracion < @fechaHasta";
-                cmd.Parameters.AddWithValue("@fechaHasta", fechaHasta);
-            }
-
-            if (precio != null)
-            {
-                cmd.CommandText += " and p.precio > @precio";
-                cmd.Parameters.AddWithValue("@precio", precio);
-            }
-            SqlDataReader dr = cmd.ExecuteReader();
-            while (dr.Read())
-            {
-                ProductoFiltrado p = new ProductoFiltrado();
-                //int? idProd = null;
-                if (dr["idProducto"] != DBNull.Value)
-                    p.idProducto = int.Parse(dr["idProducto"].ToString());
-
-                //String nom = null;
-                if (dr["nombre"] != DBNull.Value)
-                    p.nombre = dr["nombre"].ToString();
-
-                //float? pre = null;
-                if (dr["precio"] != DBNull.Value)
+                //Insertamos pedido
+                SqlCommand comando = new SqlCommand();
+                comando.Connection = conexion;
+                comando.CommandText = @"INSERT INTO [ProyectoWeb].[dbo].Pedido(fechaGeneracion,fechaEntrega,idEstado,idCliente,total)
+                                    VALUES(@fechaGeneracion,@fechaEntrega,@idEstado,@idCliente,@total);
+                                    SELECT Scope_Identity() as ID";
+                comando.Parameters.AddWithValue("@fechaGeneracion", pedido.FechaGeneracion.ToString());
+                comando.Parameters.AddWithValue("@fechaEntrega", pedido.FechaEntrega.ToString());
+                comando.Parameters.AddWithValue("@idEstado", pedido.IdEstado.ToString());
+                comando.Parameters.AddWithValue("@idCliente", pedido.IdCliente.ToString());
+                comando.Parameters.AddWithValue("@total", pedido.Total.ToString());
+                comando.Transaction = transaccion;
+                int idPedidoInsertado = Convert.ToInt32(comando.ExecuteScalar());
+                //Insertamos detalles
+                foreach (DetallePedido detalle in detalles)
                 {
-                    p.precio = float.Parse(dr["precio"].ToString());
+                    SqlCommand comandoDetalle = new SqlCommand();
+                    comandoDetalle.Connection = conexion;
+                    comandoDetalle.CommandText = @"INSERT INTO [ProyectoWeb].[dbo].DetallePedido(idDetalle,idPedido,idProducto,cantidad)
+                                        VALUES(@idDetalle,@idPedido,@idProducto,@cantidad)";
+                    comandoDetalle.Parameters.AddWithValue("@idDetalle", detalle.IdDetalle.ToString());
+                    comandoDetalle.Parameters.AddWithValue("@idPedido", idPedidoInsertado.ToString());
+                    comandoDetalle.Parameters.AddWithValue("@idProducto", detalle.IdProducto.ToString());
+                    comandoDetalle.Parameters.AddWithValue("@cantidad", detalle.Cantidad.ToString());
+                    comandoDetalle.Transaction = transaccion;
+                    comandoDetalle.ExecuteNonQuery();
                 }
-
-                //String descripcionTipoProducto = null;
-                if (dr["descripcion"] != DBNull.Value)
-                {
-                    p.descripcionTipoProducto = dr["descripcion"].ToString();
-                }
-
-                //DateTime? fechaAlta = null;
-                if (dr["fechaAlta"] != DBNull.Value)
-                {
-                    p.fechaAlta = (DateTime)(dr["fechaAlta"]);
-                }
-
-                //int? idPedido = null;
-                if (dr["idPedido"] != DBNull.Value)
-                {
-                    p.idPedido = int.Parse(dr["idPedido"].ToString());
-                }
-
-                //DateTime? fechaGeneracionPedido = null;
-                if (dr["fechaGeneracion"] != DBNull.Value)
-                {
-                    p.fechaGeneracionPedido = (DateTime)(dr["fechaGeneracion"]);
-                }
-                p.imagen = "";
-                lista.Add(p);
+                //Descontamos saldo a cliente
+                Cliente cliente = DAO_Cliente.ObtenerPorID(pedido.IdCliente);
+                cliente.Saldo -= pedido.Total;
+                DAO_Cliente.Actualizar(cliente);
+                transaccion.Commit();
             }
-            dr.Close();
-            cn.Close();
-            return lista;
+            catch (SqlException) { transaccion.Rollback(); throw; }
+            catch (ApplicationException) { transaccion.Rollback(); throw; }
+            catch (SystemException) { transaccion.Rollback(); throw; }
+            finally { conexion.Close(); }
         }
     }
 }

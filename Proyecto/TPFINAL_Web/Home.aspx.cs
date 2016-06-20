@@ -11,6 +11,11 @@ public partial class prueba : System.Web.UI.Page
     {
         Page.Title = "Home";
         if (Session["Usuario"] != null)
+        {
             txtBienvenida.Text = "Bienvenido " + Convert.ToString(Session["Usuario"]) + "!";
+            Response.AddHeader("REFRESH", "3;URL=ABMClientesWF.aspx");
+        }
+        else
+            Response.Redirect("LoginWF.aspx");
     }
 }
