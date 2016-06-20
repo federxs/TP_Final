@@ -1,4 +1,4 @@
-﻿<%@ Page MasterPageFile="~/DefaultMP.master" Language="C#" AutoEventWireup="true" CodeFile="RegistrarPago.aspx.cs" Inherits="RegistrarPago" %>
+﻿<%@ Page MasterPageFile="~/DefaultMP.master" Language="C#" AutoEventWireup="true" CodeFile="RegistrarPagoWF.aspx.cs" Inherits="RegistrarPago" %>
 
 <asp:Content ID="Contenido1" ContentPlaceHolderID="ContentPlaceHolderMaster" runat="server">
     <!DOCTYPE html>

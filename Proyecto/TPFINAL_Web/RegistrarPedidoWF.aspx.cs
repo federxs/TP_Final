@@ -24,6 +24,7 @@ public partial class RegistrarPedidoWF : System.Web.UI.Page
             Detalles = new List<DetallePedido>();
             limpiarDetalle();
             limpiarEncabezado();
+            btnEliminar.Enabled = false;
         }
     }
 
@@ -130,6 +131,7 @@ public partial class RegistrarPedidoWF : System.Web.UI.Page
         calcularTotal();
         cargarGrillaDetalles();
         limpiarDetalle();
+        btnEliminar.Enabled = false;
     }
     protected void btnAceptar_Click(object sender, EventArgs e)
     {
@@ -211,5 +213,6 @@ public partial class RegistrarPedidoWF : System.Web.UI.Page
         txtIdDetalle.Text = gvDetalles.SelectedRow.Cells[1].Text;
         txtCantidad.Text = gvDetalles.SelectedRow.Cells[3].Text;
         ddlProductos.SelectedValue = Detalles[gvDetalles.SelectedIndex].IdProducto.ToString();
+        btnEliminar.Enabled = true;
     }
 }

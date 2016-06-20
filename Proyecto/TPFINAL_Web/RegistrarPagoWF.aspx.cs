@@ -14,6 +14,10 @@ public partial class RegistrarPago : System.Web.UI.Page
     {
         if (!Page.IsPostBack)
         {
+            if (string.IsNullOrEmpty((string)Session["Usuario"]))
+            {
+                Response.Redirect("LoginWF.aspx");
+            }
             rvf_monto.Enabled = false;
             rvf_Pedido.Enabled = false;
             cargarFormaPago();
@@ -105,7 +109,8 @@ public partial class RegistrarPago : System.Web.UI.Page
 
     protected void btn_Agregar_Click(object sender, EventArgs e)
     {
-        if((int.Parse(cmb_clientes.SelectedValue.ToString()) == 0)||(int.Parse(cmb_pedidos.SelectedValue.ToString())== 0)) {
+        if ((int.Parse(cmb_clientes.SelectedValue.ToString()) == 0) || (int.Parse(cmb_pedidos.SelectedValue.ToString()) == 0))
+        {
             rvf_monto.Enabled = false;
             txt_monto.Text = String.Empty;
             return;
@@ -214,7 +219,8 @@ public partial class RegistrarPago : System.Web.UI.Page
         {
             lbl_transaccion.Text = "Pago registrado con exito.";
         }
-        else {
+        else
+        {
             lbl_transaccion.Text = "Error al registrar pago.";
         }
         lbl_montoAcumulado.Text = String.Empty;

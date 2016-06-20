@@ -12,7 +12,7 @@ namespace DAOs
         {
             get
             {
-                return @"Data Source=JOSÉ-PC\SQLEXPRESS;Initial Catalog=ProyectoWeb;Integrated Security=True";
+                return @"Data Source=FEDECARP-PC\SQLSERVER;Initial Catalog=ProyectoWeb;Integrated Security=True";
             }
             set
             {
