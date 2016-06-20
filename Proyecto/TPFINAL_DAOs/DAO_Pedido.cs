@@ -10,22 +10,15 @@ namespace DAOs
 {
     public static class DAO_Pedido
     {
-        public static List<ProductoFiltrado> obtenerProductosPorFiltro(int? idTipoProducto, String nombre, float? precio, DateTime? fechaDesde, DateTime? fechaHasta)
+        public static void Insertar(Pedido pedido, List<DetallePedido> detalles)
         {
-            List<ProductoFiltrado> lista = new List<ProductoFiltrado>();
-            SqlConnection cn = new SqlConnection();
-            cn.ConnectionString = cn.ConnectionString = DAOs.StringConexion.StringBD;
-            cn.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = cn;
-            cmd.CommandText = @"Select p.idProducto, p.nombre, p.precio, 
-		                        tp.descripcion, p.fechaAlta, pe.idPedido,
-		                        pe.fechaGeneracion 
-		                        from Producto p JOIN DetallePedido dpe on p.idProducto = dpe.idProducto 
-                                JOIN Pedido pe on pe.idPedido = dpe.idPedido JOIN TipoProducto tp on tp.idTipoProducto = p.idTipoProducto 
-		                        where 1=1 and p.borrado= 0";
-            if (!string.IsNullOrEmpty(nombre))
+            SqlConnection conexion = new SqlConnection();
+            conexion.ConnectionString = StringConexion.StringBD;
+            conexion.Open();
+            SqlTransaction transaccion = conexion.BeginTransaction();
+            try
             {
+
                 cmd.CommandText += " and p.nombre Like @nombre";
                 cmd.Parameters.AddWithValue("@nombre", nombre + "%");
             }
@@ -94,15 +87,45 @@ namespace DAOs
 
                 //DateTime? fechaGeneracionPedido = null;
                 if (dr["fechaGeneracion"] != DBNull.Value)
+
+                //Insertamos pedido
+                SqlCommand comando = new SqlCommand();
+                comando.Connection = conexion;
+                comando.CommandText = @"INSERT INTO [ProyectoWeb].[dbo].Pedido(fechaGeneracion,fechaEntrega,idEstado,idCliente,total)
+                                    VALUES(@fechaGeneracion,@fechaEntrega,@idEstado,@idCliente,@total);
+                                    SELECT Scope_Identity() as ID";
+                comando.Parameters.AddWithValue("@fechaGeneracion", pedido.FechaGeneracion.ToString());
+                comando.Parameters.AddWithValue("@fechaEntrega", pedido.FechaEntrega.ToString());
+                comando.Parameters.AddWithValue("@idEstado", pedido.IdEstado.ToString());
+                comando.Parameters.AddWithValue("@idCliente", pedido.IdCliente.ToString());
+                comando.Parameters.AddWithValue("@total", pedido.Total.ToString());
+                comando.Transaction = transaccion;
+                int idPedidoInsertado = Convert.ToInt32(comando.ExecuteScalar());
+                //Insertamos detalles
+                foreach (DetallePedido detalle in detalles)
+
                 {
-                    p.fechaGeneracionPedido = (DateTime)(dr["fechaGeneracion"]);
+                    SqlCommand comandoDetalle = new SqlCommand();
+                    comandoDetalle.Connection = conexion;
+                    comandoDetalle.CommandText = @"INSERT INTO [ProyectoWeb].[dbo].DetallePedido(idDetalle,idPedido,idProducto,cantidad)
+                                        VALUES(@idDetalle,@idPedido,@idProducto,@cantidad)";
+                    comandoDetalle.Parameters.AddWithValue("@idDetalle", detalle.IdDetalle.ToString());
+                    comandoDetalle.Parameters.AddWithValue("@idPedido", idPedidoInsertado.ToString());
+                    comandoDetalle.Parameters.AddWithValue("@idProducto", detalle.IdProducto.ToString());
+                    comandoDetalle.Parameters.AddWithValue("@cantidad", detalle.Cantidad.ToString());
+                    comandoDetalle.Transaction = transaccion;
+                    comandoDetalle.ExecuteNonQuery();
                 }
-                p.imagen = "";
-                lista.Add(p);
+                //Descontamos saldo a cliente
+                Cliente cliente = DAO_Cliente.ObtenerPorID(pedido.IdCliente);
+                cliente.Saldo -= pedido.Total;
+                DAO_Cliente.Actualizar(cliente);
+                transaccion.Commit();
             }
-            dr.Close();
-            cn.Close();
-            return lista;
+            catch (SqlException) { transaccion.Rollback(); throw; }
+            catch (ApplicationException) { transaccion.Rollback(); throw; }
+            catch (SystemException) { transaccion.Rollback(); throw; }
+            finally { conexion.Close(); }
         }
 
         public static List<Pedido> obtenerPedidoPorCliente(int idCli)

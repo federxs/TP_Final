@@ -11,33 +11,13 @@
         <form class="form form-inline form-multiline" id="formPrincipal" runat="server" method="post" role="form">
             <div class="container col-lg-8 col-md-8">
                 <h2>Registrar Pedido</h2>
+                <asp:Label Text="" CssClass="label" ID="lblMensajes" Font-Size="Larger" runat="server" />
+                <br />
                 <h3>Pedido</h3>
                 <asp:Panel runat="server">
-                    <%--<div class="form-group">
-                        <label for="txtCliente">Cliente:</label>
-                        <asp:GridView runat="server" ID="gvClientes" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None" AllowPaging="true" PageSize="2" OnPageIndexChanged="gvClientes_PageIndexChanged">
-                            <AlternatingRowStyle BackColor="White" />
-                            <Columns>
-                                <asp:CommandField HeaderText="Seleccion" SelectText="Seleccionar" ShowSelectButton="True" />
-                                <asp:BoundField DataField="Apellido" HeaderText="Apellido" />
-                                <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
-                                <asp:BoundField DataField="RazonSocial" HeaderText="Razon Social" />
-                                <asp:BoundField DataField="NumeroDoc" HeaderText="N° Doc" />
-                                <asp:BoundField DataField="TipoDoc" HeaderText="Tipo Doc" />
-                                <asp:BoundField DataField="Cuit" HeaderText="CUIT" />
-                            </Columns>
-                            <EditRowStyle BackColor="#2461BF" />
-                            <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                            <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
-                            <RowStyle BackColor="#EFF3FB" />
-                            <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-                            <SortedAscendingCellStyle BackColor="#F5F7FB" />
-                            <SortedAscendingHeaderStyle BackColor="#6D95E1" />
-                            <SortedDescendingCellStyle BackColor="#E9EBEF" />
-                            <SortedDescendingHeaderStyle BackColor="#4870BE" />
-                        </asp:GridView>
-                    </div>--%>
+                    <div class="container col-lg-9 col-md-9 col-sm-9 col-xs-12" style="background-color: lightsalmon">
+                        <asp:ValidationSummary runat="server" ID="valSummary" HeaderText="Revise los siguientes errores:" ShowSummary="true" DisplayMode="BulletList" ValidationGroup="A" ShowMessageBox="False" />
+                    </div>
                     <div class="form-group">
                         <label for="txtIdPedido">N° Pedido:</label>
                         <asp:TextBox CssClass="form-control" runat="server" ID="txtIdPedido" placeholder="N° Pedido" Enabled="false" />
@@ -45,22 +25,27 @@
                     <div class="form-group">
                         <label for="txtIdCliente">N° de Cliente:</label>
                         <asp:TextBox runat="server" CssClass="form-control" ID="txtIdCliente" placeholder="N° de Cliente" />
+                        <asp:RequiredFieldValidator ErrorMessage="Debe ingresar un número de cliente" ValidationGroup="A" Text="*" ControlToValidate="txtIdCliente" runat="server" />
+                        <asp:CompareValidator ErrorMessage="El formato del n° de cliente no es válido" ValidationGroup="A" Text="*" Operator="DataTypeCheck" Type="Integer" ControlToValidate="txtIdCliente" runat="server" />
                     </div>
                     <div class="form-group">
                         <label for="txtFechaEntrega">Fecha de Entrega:</label>
                         <asp:TextBox CssClass="form-control" runat="server" ID="txtFechaEntrega" placeholder="dd/MM/AAAA" />
+                        <asp:RequiredFieldValidator ErrorMessage="Debe ingresar una fecha de entrega" ValidationGroup="A" Text="*" ControlToValidate="txtFechaEntrega" runat="server" />
                     </div>
                     <div class="form-group">
                         <label for="ddlEstado">Estado:</label>
-                        <asp:DropDownList runat="server" ID="ddlEstado" CssClass="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="txtTotal">Total:</label>
-                        <asp:TextBox runat="server" CssClass="form-control" ID="txtTotal" placeholder="Total" />
+                        <asp:DropDownList runat="server" ID="ddlEstado" CssClass="form-control" Enabled="false">
+                            <asp:ListItem Text="Generado" Value="1" />
+                        </asp:DropDownList>
                     </div>
                 </asp:Panel>
+                <hr />
                 <asp:Panel runat="server">
                     <h3>Detalle</h3>
+                    <div class="container col-lg-9 col-md-9 col-sm-9 col-xs-12" style="background-color: lightsalmon">
+                        <asp:ValidationSummary runat="server" ID="ValidationSummary1" HeaderText="Revise los siguientes errores:" ShowSummary="true" DisplayMode="BulletList" ValidationGroup="B" ShowMessageBox="False" />
+                    </div>
                     <div class="form-group">
                         <label for="txtIdDetalle">N° Detalle:</label>
                         <asp:TextBox runat="server" CssClass="form-control" ID="txtIdDetalle" placeholder="N° Detalle" Enabled="false" />
@@ -68,20 +53,22 @@
                     <div class="form-group">
                         <label for="ddlProductos">Producto:</label>
                         <asp:DropDownList runat="server" CssClass="form-control" ID="ddlProductos" />
+                        <asp:RequiredFieldValidator ErrorMessage="Debe seleccionar un producto" Text="*" ValidationGroup="B" InitialValue="0" ControlToValidate="ddlProductos" runat="server" />
                     </div>
                     <div class="form-group">
                         <label for="txtCantidad">Cantidad:</label>
                         <asp:TextBox runat="server" CssClass="form-control" ID="txtCantidad" placeholder="Cantidad" />
+                        <asp:CompareValidator ErrorMessage="El formato de la cantidad no es correcto" Text="*" ControlToValidate="txtCantidad" ValidationGroup="B" Operator="DataTypeCheck" Type="Integer" runat="server" />
+                        <asp:RequiredFieldValidator ErrorMessage="Debe ingresar una cantidad" Text="*" ValidationGroup="B" ControlToValidate="txtCantidad" runat="server" />
                     </div>
                     <div class="btn-group">
-                        <asp:Button Text="Agregar" runat="server" id="btnAgregar" OnClick="btnAgregar_Click" CssClass="btn btn-success"/>
-                        <asp:Button Text="Modificar" runat="server" ID="btnModificar" OnClick="btnModificar_Click" CssClass="btn btn-warning"/>
-                        <asp:Button Text="Eliminar" runat="server" id="btnEliminar" OnClick="btnEliminar_Click" CssClass="btn btn-danger"/>
-                        <asp:Button Text="Nuevo" runat="server" id="btnNuevo" OnClick="btnNuevo_Click" CssClass="btn btn-success" />
+                        <asp:Button Text="Agregar" runat="server" ID="btnAgregar" CausesValidation="true" ValidationGroup="B" OnClick="btnAgregar_Click" CssClass="btn btn-success" />
+                        <asp:Button Text="Eliminar" runat="server" ID="btnEliminar" OnClick="btnEliminar_Click" CssClass="btn btn-danger" />
                     </div>
+                    <br />
                     <div class="form-group">
                         <label for="gvDetalles">Detalles:</label>
-                        <asp:GridView runat="server" ID="gvDetalles" AutoGenerateColumns="False">
+                        <asp:GridView runat="server" ID="gvDetalles" AutoGenerateColumns="False" OnSelectedIndexChanged="gvDetalles_SelectedIndexChanged">
                             <Columns>
                                 <asp:CommandField HeaderText="Seleccion" SelectText="Seleccionar" ShowSelectButton="True" />
                                 <asp:BoundField DataField="IdDetalle" HeaderText="N°" />
@@ -91,10 +78,15 @@
                         </asp:GridView>
                     </div>
                 </asp:Panel>
-            </div>
-            <hr />
-            <div class="btn-group">
-
+                <div class="form-group">
+                    <label for="txtTotal">Total:</label>
+                    <asp:TextBox runat="server" CssClass="form-control" ID="txtTotal" placeholder="Total" Enabled="false" />
+                </div>
+                <hr />
+                <div class="btn-group">
+                    <asp:Button Text="Aceptar" runat="server" ID="btnAceptar" OnClick="btnAceptar_Click" CssClass="btn btn-success" CausesValidation="true" ValidationGroup="A" />
+                    <asp:Button Text="Cancelar" runat="server" ID="btnCancelar" OnClick="btnCancelar_Click" CssClass="btn btn-warning" />
+                </div>
             </div>
         </form>
         <div class="col-lg-2 col-md-2"></div>

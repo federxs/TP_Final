@@ -7,11 +7,10 @@
             <br />
             <br />
             <br />
-            <asp:Label ID="txtBienvenida" Text="Bienvenido !" runat="server" CssClass="label label-success" />
-            <h3><a href="ABMClientesWF.aspx">Ir al ABMC de Clientes</a>
-            </h3>
-            <h3><a href="ABMProducto.aspx">Ir al ABMC de Productos</a>
-            </h3>
+            <br />
+            <asp:Label ID="txtBienvenida" Text="Bienvenido !" Font-Size="Larger" runat="server" CssClass="label label-success" />
+            <br />
+            <p>A continuación será redirigido...</p>
         </div>
 
     </body>

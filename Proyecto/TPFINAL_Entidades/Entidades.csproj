@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Cliente.cs" />
     <Compile Include="DetallePago.cs" />
+    <Compile Include="DetallePedido.cs" />
     <Compile Include="Estado.cs" />
     <Compile Include="FormaPago.cs" />
     <Compile Include="DetallePagoGrillaEntidad.cs" />

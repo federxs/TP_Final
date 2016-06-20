@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B8BF2099-3A65-4FE6-8016-C8190BC277BC}</ProjectGuid>
+    <ProjectGuid>{BC36C7A1-146C-44ED-8115-E5ABC3B8BA93}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DAOs</RootNamespace>
-    <AssemblyName>DAOs</AssemblyName>
+    <RootNamespace>Entidades</RootNamespace>
+    <AssemblyName>Entidades</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +28,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -42,28 +39,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAO_Cliente.cs" />
-    <Compile Include="DAO_FormaPago.cs" />
-    <Compile Include="DAO_Localidad.cs" />
-    <Compile Include="DAO_Pais.cs" />
-    <Compile Include="DAO_Pedido.cs" />
-    <Compile Include="DAO_RegistrarPago.cs" />
-    <Compile Include="DAO_TblPedido.cs" />
-    <Compile Include="DAO_Producto.cs" />
-    <Compile Include="DAO_Provincia.cs" />
-    <Compile Include="DAO_TipoDoc.cs" />
-    <Compile Include="DAO_Usuario.cs" />
+    <Compile Include="Cliente.cs" />
+<<<<<<< HEAD
+    <Compile Include="DetallePago.cs" />
+=======
+    <Compile Include="DetallePedido.cs" />
+>>>>>>> origin/master
+    <Compile Include="Estado.cs" />
+    <Compile Include="FormaPago.cs" />
+    <Compile Include="DetallePagoGrillaEntidad.cs" />
+    <Compile Include="Localidad.cs" />
+    <Compile Include="Pais.cs" />
+    <Compile Include="Pedido.cs" />
+    <Compile Include="Producto.cs" />
+    <Compile Include="ProductoFiltrado.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringConexion.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TPFINAL_Entidades\Entidades.csproj">
-      <Project>{bc36c7a1-146c-44ed-8115-e5abc3b8ba93}</Project>
-      <Name>Entidades</Name>
-    </ProjectReference>
+    <Compile Include="Provincia.cs" />
+    <Compile Include="Rol.cs" />
+    <Compile Include="TblPedido.cs" />
+    <Compile Include="TipoDoc.cs" />
+    <Compile Include="TipoProducto.cs" />
+    <Compile Include="Usuario.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
