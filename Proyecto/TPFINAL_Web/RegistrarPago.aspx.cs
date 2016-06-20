@@ -56,6 +56,7 @@ public partial class RegistrarPago : System.Web.UI.Page
     protected void cmb_pedidos_SelectedIndexChanged(object sender, EventArgs e)
     {
         pagos = null;
+        cargarGrilla();
         txt_monto.Text = String.Empty;
         lbl_montoAcumulado.Text = String.Empty;
         rvf_monto.Enabled = true;
@@ -105,7 +106,8 @@ public partial class RegistrarPago : System.Web.UI.Page
 
     protected void btn_Agregar_Click(object sender, EventArgs e)
     {
-        if((int.Parse(cmb_clientes.SelectedValue.ToString()) == 0)||(int.Parse(cmb_pedidos.SelectedValue.ToString())== 0)) {
+        lbl_transaccion.Text = String.Empty;
+        if ((int.Parse(cmb_clientes.SelectedValue.ToString()) == 0)||(int.Parse(cmb_pedidos.SelectedValue.ToString())== 0)) {
             rvf_monto.Enabled = false;
             txt_monto.Text = String.Empty;
             return;
@@ -118,7 +120,8 @@ public partial class RegistrarPago : System.Web.UI.Page
             {
                 acumulador += pagos.ElementAt(i).cantidad;
             }
-            if ((float.Parse(txt_monto.Text) + acumulador) <= float.Parse(lbl_monto.Text))
+            float suma = (float.Parse(txt_monto.Text) + acumulador);
+            if (suma <= float.Parse(lbl_monto.Text))
             {
                 lbl_montoAcumulado.Text = (acumulador + float.Parse(txt_monto.Text)).ToString();
                 DetallePagoGrillaEntidad p = new DetallePagoGrillaEntidad();
@@ -127,14 +130,31 @@ public partial class RegistrarPago : System.Web.UI.Page
                 p.formaPago = cmb_pago.SelectedItem.ToString();
                 p.idDetallePago = contador;
                 contador++;
-                pagos.Add(p);
+                Boolean ban = false;
+                for (int i = 0; i < pagos.Count; i++)
+                {
+                    if (pagos.ElementAt(i).idFormaPago == p.idFormaPago)
+                    {
+                        pagos.ElementAt(i).cantidad += p.cantidad;
+                        ban = true;
+                        break;
+                    }
+                }
+                if (!ban)
+                    pagos.Add(p);
                 cargarGrilla();
+                txt_monto.Text = String.Empty;
+            }
+            else
+            {
+                lbl_transaccion.Text = "El monto ingresado es superior al monto total que se tiene que abonar.";
                 txt_monto.Text = String.Empty;
             }
         }
         else
         {
-            if (float.Parse(txt_monto.Text) <= (float.Parse(lbl_monto.Text)))
+            float suma = (float.Parse(txt_monto.Text) + acumulador);
+            if (suma <= float.Parse(lbl_monto.Text))
             {
                 acumulador = float.Parse(txt_monto.Text);
                 lbl_montoAcumulado.Text = acumulador.ToString();
@@ -144,8 +164,25 @@ public partial class RegistrarPago : System.Web.UI.Page
                 p.formaPago = cmb_pago.SelectedItem.ToString();
                 p.idDetallePago = contador;
                 contador++;
-                pagos.Add(p);
+                Boolean ban = false;
+                for (int i = 0; i < pagos.Count; i++)
+                {
+                    if (pagos.ElementAt(i).idFormaPago == p.idFormaPago)
+                    {
+                        pagos.ElementAt(i).cantidad += p.cantidad;
+                        ban = true;
+                        break;
+                    }
+                }
+                if (!ban)
+                    pagos.Add(p);
+
                 cargarGrilla();
+                txt_monto.Text = String.Empty;
+            }
+            else
+            {
+                lbl_transaccion.Text = "El monto ingresado es superior al monto total que se tiene que abonar.";
                 txt_monto.Text = String.Empty;
             }
         }
