@@ -23,10 +23,15 @@
                         <asp:TextBox CssClass="form-control" runat="server" ID="txtIdPedido" placeholder="N° Pedido" Enabled="false" />
                     </div>
                     <div class="form-group">
-                        <label for="txtIdCliente">N° de Cliente:</label>
-                        <asp:TextBox runat="server" CssClass="form-control" ID="txtIdCliente" placeholder="N° de Cliente" />
-                        <asp:RequiredFieldValidator ErrorMessage="Debe ingresar un número de cliente" ValidationGroup="A" Text="*" ControlToValidate="txtIdCliente" runat="server" />
-                        <asp:CompareValidator ErrorMessage="El formato del n° de cliente no es válido" ValidationGroup="A" Text="*" Operator="DataTypeCheck" Type="Integer" ControlToValidate="txtIdCliente" runat="server" />
+                        <label for="txtIdCliente">N° Doc de Cliente:</label>
+                        <asp:TextBox runat="server" CssClass="form-control" ID="txtIdCliente" placeholder="N° Doc de Cliente" />
+                        <asp:RequiredFieldValidator ErrorMessage="Debe ingresar un número de documento de cliente" ValidationGroup="A" Text="*" ControlToValidate="txtIdCliente" runat="server" />
+                        <asp:CompareValidator ErrorMessage="El formato del n° de doc de cliente no es válido" ValidationGroup="A" Text="*" Operator="DataTypeCheck" Type="Integer" ControlToValidate="txtIdCliente" runat="server" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ddlTipoDoc">Tipo Doc: *</label>
+                        <asp:DropDownList CssClass="form-control" ID="ddlTipoDoc" runat="server" AutoPostBack="false"></asp:DropDownList>
+                        <asp:RequiredFieldValidator ID="rfvTipoDoc" ErrorMessage="Debe seleccionar un tipo de documento" Text="*" ControlToValidate="ddlTipoDoc" InitialValue="" runat="server" ValidationGroup="A" />
                     </div>
                     <div class="form-group">
                         <label for="txtFechaEntrega">Fecha de Entrega:</label>

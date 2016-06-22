@@ -21,11 +21,21 @@ public partial class RegistrarPedidoWF : System.Web.UI.Page
             }
             Page.Title = "Registrar Pedido";
             cargarProductos();
+            cargarTipoDoc();
             Detalles = new List<DetallePedido>();
             limpiarDetalle();
             limpiarEncabezado();
             btnEliminar.Enabled = false;
         }
+    }
+
+    protected void cargarTipoDoc()
+    {
+        ddlTipoDoc.DataSource = DAOs.DAO_TipoDoc.ObtenerTodos();
+        ddlTipoDoc.DataTextField = "Nombre";
+        ddlTipoDoc.DataValueField = "IdTipoDoc";
+        ddlTipoDoc.DataBind();
+        ddlTipoDoc.Items.Insert(0, new ListItem("Seleccionar", string.Empty));
     }
 
     protected void cargarProductos()
@@ -145,24 +155,29 @@ public partial class RegistrarPedidoWF : System.Web.UI.Page
         {
             resultado = "Debe ingresar al menos un detalle de pedido";
             lblMensajes.CssClass = "label label-danger";
+            lblMensajes.Text = resultado;
+            return;
         }
         //verificamos que el cliente posea saldo
         float total = 0f;
         if (!string.IsNullOrEmpty(txtTotal.Text))
             total = float.Parse(txtTotal.Text);
-        if (DAO_Cliente.ObtenerPorID(int.Parse(txtIdCliente.Text)).Saldo >= total)
+        Cliente cliente = DAO_Cliente.obtenerPorDocumento(int.Parse(txtIdCliente.Text), int.Parse(ddlTipoDoc.SelectedValue));
+        if (cliente.Saldo >= total)
             clienteTieneSaldo = true;
         else
         {
             resultado = "El cliente no posee el saldo suficiente";
             lblMensajes.CssClass = "label label-danger";
+            lblMensajes.Text = resultado;
+            return;
         }
         //Si no hay problemas procedemos con el registro del pedido
         if (Page.IsValid && hayDetalles && clienteTieneSaldo)
         {
             Pedido pedidoNuevo = new Pedido()
             {
-                IdCliente = int.Parse(txtIdCliente.Text),
+                IdCliente = cliente.IdCliente,
                 IdEstado = int.Parse(ddlEstado.Items[0].Value),
                 FechaEntrega = Convert.ToDateTime(txtFechaEntrega.Text),
                 FechaGeneracion = DateTime.Today,
@@ -200,6 +215,7 @@ public partial class RegistrarPedidoWF : System.Web.UI.Page
         txtIdCliente.Text = "";
         txtFechaEntrega.Text = "";
         ddlEstado.SelectedIndex = 0;
+        ddlTipoDoc.SelectedIndex = 0;
     }
 
     protected void limpiarDetalle()

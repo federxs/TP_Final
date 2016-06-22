@@ -218,7 +218,7 @@ namespace DAOs
                 comando.Connection = conexion;
                 comando.CommandText = @"SELECT  C.[idCliente],C.[nombre],C.[apellido],C.[idLocalidad],
                 C.[telefono],C.[email],C.[cuit],C.[sexo],C.[direccion], C.[saldo], C.[borrado], C.[idTipoDoc],
-                C.[numeroDoc],C.[idTipoDoc], C.[fechaAlta] FROM [ProyectoWeb].[dbo].Cliente C WHERE C.idCliente = @idCliente";
+                C.[numeroDoc], C.[fechaAlta] FROM [ProyectoWeb].[dbo].Cliente C WHERE C.idCliente = @idCliente";
                 comando.Parameters.AddWithValue("@idCliente", idCliente);
                 SqlDataReader dataReader = comando.ExecuteReader();
                 if (dataReader.Read())
@@ -253,6 +253,56 @@ namespace DAOs
             catch (ApplicationException ex) { throw ex; }
             catch (Exception ex) { throw ex; }
         }
+
+        public static Cliente obtenerPorDocumento(int numero, int tipo) 
+        {
+            Cliente cliente = null;
+            try
+            {
+                SqlConnection conexion = new SqlConnection();
+                conexion.ConnectionString = DAOs.StringConexion.StringBD;
+                conexion.Open();
+                SqlCommand comando = new SqlCommand();
+                comando.Connection = conexion;
+                comando.CommandText = @"SELECT  C.[idCliente],C.[nombre],C.[apellido],C.[idLocalidad],
+                C.[telefono],C.[email],C.[cuit],C.[sexo],C.[direccion], C.[saldo], C.[borrado], C.[idTipoDoc],
+                C.[numeroDoc], C.[fechaAlta] FROM [ProyectoWeb].[dbo].Cliente C WHERE C.numeroDoc = @numero AND C.idTipoDoc = @tipo";
+                comando.Parameters.AddWithValue("@numero", numero);
+                comando.Parameters.AddWithValue("@tipo", tipo);
+                SqlDataReader dataReader = comando.ExecuteReader();
+                if (dataReader.Read())
+                {
+                    cliente = new Cliente()
+                    {
+                        IdCliente = int.Parse(dataReader["idCliente"].ToString()),
+                        Telefono = long.Parse(dataReader["telefono"].ToString()),
+                        Email = dataReader["email"].ToString(),
+                        Cuit = dataReader["cuit"].ToString(),
+                        Direccion = dataReader["direccion"].ToString(),
+                        Localidad = int.Parse(dataReader["idLocalidad"].ToString()),
+                        NumeroDoc = int.Parse(dataReader["numeroDoc"].ToString()),
+                        TipoDoc = int.Parse(dataReader["idTipoDoc"].ToString()),
+                        FechaAlta = (DateTime)dataReader["fechaAlta"],
+                        Saldo = float.Parse(dataReader["saldo"].ToString()),
+                        Borrado = Convert.ToBoolean(dataReader["borrado"].ToString()),
+                        Apellido = dataReader["apellido"].ToString(),
+                        Nombre = dataReader["nombre"].ToString()
+                    };
+                    if (Convert.ToBoolean(dataReader["sexo"].ToString()))
+                        cliente.Sexo = "Masculino";
+                    else
+                        cliente.Sexo = "Femenino";
+                }
+                dataReader.Close();
+                conexion.Close();
+                return cliente;
+            }
+            catch (SqlException exSql) { throw exSql; }
+            catch (SystemException ex) { throw ex; }
+            catch (ApplicationException ex) { throw ex; }
+            catch (Exception ex) { throw ex; }
+        }
+
         public static List<Cliente> obtenerClientesTransaccion()
         {
             List<Cliente> lista = new List<Cliente>();
