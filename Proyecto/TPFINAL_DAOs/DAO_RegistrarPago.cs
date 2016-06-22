@@ -32,19 +32,21 @@ namespace DAOs
                 cmd.Parameters.AddWithValue("@fechaPago", sqlFormattedDate);
                 cmd.Transaction = tran;
                 int idPago = Convert.ToInt32(cmd.ExecuteScalar());
+                int contador = 1;
                 foreach (DetallePagoGrillaEntidad p in pagos)
                 {
                     //Realizo el insert de los telefonos
                     SqlCommand cmdTe = new SqlCommand();
                     cmdTe.Connection = cn;
-                    cmdTe.CommandText = @"Insert into DetallePago (idPago, idFormaPago, cantidad)
-                                          values (@idPago, @idFormaPago, @cantidad)
-                                          ;select Scope_Identity() as ID";
+                    cmdTe.CommandText = @"Insert into DetallePago (idDetallePago, idPago, idFormaPago, cantidad)
+                                          values (@idDetallePago, @idPago, @idFormaPago, @cantidad)";
+                    cmdTe.Parameters.AddWithValue("@idDetallePago", contador);
                     cmdTe.Parameters.AddWithValue("@idPago", idPago);
                     cmdTe.Parameters.AddWithValue("@idFormaPago", p.idFormaPago);
                     cmdTe.Parameters.AddWithValue("@cantidad", p.cantidad);
                     cmdTe.Transaction = tran;
                     cmdTe.ExecuteNonQuery();
+                    contador += 1;
                 }
                 SqlCommand cmdPe = new SqlCommand();
                 cmdPe.Connection = cn;
@@ -53,26 +55,26 @@ namespace DAOs
                 cmdPe.Transaction = tran;
                 cmdPe.ExecuteNonQuery();
 
-                SqlCommand cmdSaldo = new SqlCommand();
-                cmdSaldo.Connection = cn;
-                cmdSaldo.CommandText = @"Select saldo from Cliente where idCliente = @idCliente";
-                cmdSaldo.Parameters.AddWithValue("@idCliente",idCliente);
-                cmdSaldo.Transaction = tran;
-                SqlDataReader dr = cmdSaldo.ExecuteReader();
-                float saldoCliente = 0;
-                if (dr.Read())
-                {
-                    saldoCliente = float.Parse(dr["saldo"].ToString());
-                }
-                dr.Close();
+                //SqlCommand cmdSaldo = new SqlCommand();
+                //cmdSaldo.Connection = cn;
+                //cmdSaldo.CommandText = @"Select saldo from Cliente where idCliente = @idCliente";
+                //cmdSaldo.Parameters.AddWithValue("@idCliente",idCliente);
+                //cmdSaldo.Transaction = tran;
+                //SqlDataReader dr = cmdSaldo.ExecuteReader();
+                //float saldoCliente = 0;
+                //if (dr.Read())
+                //{
+                //    saldoCliente = float.Parse(dr["saldo"].ToString());
+                //}
+                //dr.Close();
 
-                SqlCommand cmdCli = new SqlCommand();
-                cmdCli.Connection = cn;
-                cmdCli.CommandText = @"Update Cliente set saldo = @sal where idCliente= @idCliente";
-                cmdCli.Parameters.AddWithValue("@sal", (saldoCliente - saldo));
-                cmdCli.Parameters.AddWithValue("@idCliente", idCliente);
-                cmdCli.Transaction = tran;
-                cmdCli.ExecuteNonQuery();
+                //SqlCommand cmdCli = new SqlCommand();
+                //cmdCli.Connection = cn;
+                //cmdCli.CommandText = @"Update Cliente set saldo = @sal where idCliente= @idCliente";
+                //cmdCli.Parameters.AddWithValue("@sal", (saldoCliente - saldo));
+                //cmdCli.Parameters.AddWithValue("@idCliente", idCliente);
+                //cmdCli.Transaction = tran;
+                //cmdCli.ExecuteNonQuery();
                 tran.Commit();
                 respuesta = true;
             }

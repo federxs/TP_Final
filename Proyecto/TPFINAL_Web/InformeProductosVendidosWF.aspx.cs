@@ -20,7 +20,6 @@ public partial class InformeProductosVendidos : System.Web.UI.Page
             btn_mostrarTodos_Click(sender,e);
             Page.DataBind();
             cargarCombo();
-            cmp_fechaDesde.Enabled = false;
         }
         else
         {
@@ -45,6 +44,8 @@ public partial class InformeProductosVendidos : System.Web.UI.Page
     {
         if ((txt_Hasta.Text != String.Empty) && (txt_Desde.Text != String.Empty))
             cmp_fechaDesde.Enabled = true;
+        else
+            cmp_fechaDesde.Enabled = false;
 
         int? idTipoProducto = null;
         if (int.Parse(cmb_TipoProducto.SelectedValue) != 0)
