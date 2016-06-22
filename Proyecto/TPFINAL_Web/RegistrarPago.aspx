@@ -39,6 +39,7 @@
                         <asp:DropDownList ID="cmb_pago" CssClass="form-control" runat="server"></asp:DropDownList>
                         <h5>Monto a pagar: </h5>
                         <asp:TextBox ID="txt_monto" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:RangeValidator ID="rvg_monto" runat="server" ControlToValidate="txt_monto" Display="Dynamic" ErrorMessage="El monto Ingresado es incorrecto" MaximumValue="99999999" MinimumValue="0" ValidationGroup="A">*</asp:RangeValidator>
                         <asp:RequiredFieldValidator ID="rvf_monto" runat="server" ControlToValidate="txt_monto" Display="Dynamic" ErrorMessage="Ingrese un monto" ValidationGroup="A">*</asp:RequiredFieldValidator>
                         <asp:Button CssClass="btn btn-success" ID="btn_Agregar" Text="Agregar" runat="server" ValidationGroup="A" OnClick="btn_Agregar_Click"></asp:Button>
                         <asp:Button CssClass="btn btn-danger" ID="btn_quitar" Text="Quitar" runat="server" OnClick="btn_quitar_Click"></asp:Button>
