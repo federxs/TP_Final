@@ -14,6 +14,10 @@ public partial class RegistrarPago : System.Web.UI.Page
     {
         if (!Page.IsPostBack)
         {
+            if (string.IsNullOrEmpty((string)Session["Usuario"]))
+            {
+                Response.Redirect("LoginWF.aspx");
+            }
             rvf_monto.Enabled = false;
             rvf_Pedido.Enabled = false;
             cargarFormaPago();
@@ -233,6 +237,7 @@ public partial class RegistrarPago : System.Web.UI.Page
             }
             lbl_montoAcumulado.Text = (float.Parse(lbl_montoAcumulado.Text) - descuento).ToString();
             cargarGrilla();
+            dgv_pagos.SelectedIndex = -1;
         }
     }
 
